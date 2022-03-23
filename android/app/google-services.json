@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "605690903873",
+    "project_id": "bshare-a25c4",
+    "storage_bucket": "bshare-a25c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605690903873:android:48787a014167cfb9b7b5c0",
+        "android_client_info": {
+          "package_name": "com.example.bshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605690903873-6rvn65n9rbhh643psg507okmfn83mmnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhf_62F5BdBqPwO4rBVOtFTcZzKOIKS3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605690903873-6rvn65n9rbhh643psg507okmfn83mmnj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
