@@ -39,13 +39,13 @@ class FirstPage extends StatelessWidget {
           //Title container
           Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 60.0, horizontal: 50.0),
+                const EdgeInsets.symmetric(vertical: 100.0, horizontal: 35.0),
             child: Container(
               // decoration: BoxDecoration(
               //   borderRadius: BorderRadius.circular(3.0),
               // ),
               height: 100.0,
-              width: 300,
+              width: 320,
               //color: Colors.yellow,
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -54,9 +54,9 @@ class FirstPage extends StatelessWidget {
               child: const Text(
                 'BSHARE',
                 style: TextStyle(
-                    fontSize: 50.0,
+                    fontSize: 75.0,
                     fontWeight: FontWeight.w900,
-                    fontStyle: FontStyle.normal,
+                    fontStyle: FontStyle.italic,
                     color: Colors.black),
               ),
             ),
