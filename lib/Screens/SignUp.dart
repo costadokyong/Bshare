@@ -2,16 +2,16 @@
 
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+class SingUp extends StatefulWidget {
+  const SingUp({
     Key? key,
   }) : super(key: key); //required this.title
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SingUp> createState() => _MySingUpState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MySingUpState extends State<SingUp> {
   Widget myContainer({required String title, required String hintText}) {
     return Container(
       alignment: Alignment.topLeft,

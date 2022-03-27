@@ -1,9 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 
-import 'package:bshare/Screens/SignUp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-//import 'package:bshare/signUp.dart';
 import 'package:bshare/Screens/StartPage.dart';
 
 void main() {
