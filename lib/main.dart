@@ -29,23 +29,14 @@ class MyApp extends StatelessWidget {
             print('You have an error! ${snapshot.error.toString()}');
             return Text('Something went wrong');
           } else if (snapshot.hasData) {
-
-            
             return FirstPage();
-
           } else {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
         },
-
       ),
-      
-
-      ), // do note remove FutureBuilder
-    );
+    ); // do note remove FutureBuilder
   }
 }
-
-

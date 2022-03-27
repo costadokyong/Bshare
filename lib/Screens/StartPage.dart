@@ -1,25 +1,6 @@
 import 'package:bshare/Screens/SignIn.dart';
 import 'package:bshare/Screens/SignUp.dart';
-import 'package:bshare/main.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.grey[300],
-      ),
-      home: const FirstPage(),
-    );
-  }
-}
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -41,9 +22,6 @@ class FirstPage extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(vertical: 100.0, horizontal: 35.0),
             child: Container(
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(3.0),
-              // ),
               height: 100.0,
               width: 320,
               //color: Colors.yellow,
@@ -85,7 +63,7 @@ class FirstPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: ((context) {
-                              return const MyHomePage(); //title: 'Bshare'
+                              return const SingUp(); //title: 'Bshare'
                             }),
                           ),
                         );
@@ -139,8 +117,3 @@ class FirstPage extends StatelessWidget {
     );
   }
 }
-
-  // authentificationButton(
-  //                     Colors.indigo, 'SIGN UP', Colors.white, context),
-  //                 authentificationButton(Colors.white,
-  //                     'ALREADY HAVE AN ACCOUNT?', Colors.lightBlue, context),
