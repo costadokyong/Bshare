@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,26 @@ class SingUp extends StatefulWidget {
 }
 
 class _MySingUpState extends State<SingUp> {
-  Widget myContainer({required String title, required String hintText}) {
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final universityController = TextEditingController();
+  final majorController = TextEditingController();
+
+  @override
+  void dispose() {
+    //Clean up the controller when the Widget is disposed
+    nameController.dispose();
+    passwordController.dispose();
+    universityController.dispose();
+    majorController.dispose();
+    super.dispose();
+  }
+
+  Widget myContainer(
+      {required String title,
+      required String labelText,
+      required TextEditingController controller}) {
+    //String hintText
     return Container(
       alignment: Alignment.topLeft,
       child: Column(
@@ -33,8 +52,10 @@ class _MySingUpState extends State<SingUp> {
               style: TextStyle(height: 0.5, fontSize: 14.0),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: hintText,
+                labelText: labelText,
+                //hintText: hintText,
               ),
+              controller: controller,
             ),
           ),
         ],
@@ -64,19 +85,31 @@ class _MySingUpState extends State<SingUp> {
                 ),
               ),
             ),
-            myContainer(title: '  Username', hintText: 'Enter Username'),
+            myContainer(
+                title: '  Username',
+                labelText: 'Enter Username',
+                controller: nameController),
             SizedBox(
               height: 5.0,
             ),
-            myContainer(title: '  Password', hintText: 'Enter Password'),
+            myContainer(
+                title: '  Password',
+                labelText: 'Enter Password',
+                controller: passwordController),
             SizedBox(
               height: 5.0,
             ),
-            myContainer(title: '  University', hintText: 'Enter University'),
+            myContainer(
+                title: '  University',
+                labelText: 'Enter University',
+                controller: universityController),
             SizedBox(
               height: 5.0,
             ),
-            myContainer(title: '  Major', hintText: 'Enter Major'),
+            myContainer(
+                title: '  Major',
+                labelText: 'Enter Major',
+                controller: majorController),
             SizedBox(
               height: 18.0,
             ),
@@ -87,7 +120,13 @@ class _MySingUpState extends State<SingUp> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   style: style,
-                  onPressed: () {},
+                  onPressed: () {
+                    // print("Validation Ok! Submit");
+                    // print('name: ${nameController.text}');
+                    // print('name: ${passwordController.text}');
+                    // print('name: ${universityController.text}');
+                    // print('name: ${majorController.text}');
+                  },
                   child: Text('Sign Up'),
                 ),
               ),
