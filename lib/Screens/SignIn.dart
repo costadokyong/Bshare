@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 
@@ -10,9 +10,9 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      //title: '_title',
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+        //appBar: AppBar(title: const Text('_title')),
         body: const MyStatefulWidget(),
       ),
     );
@@ -40,19 +40,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: const Text(
-                  'login',
+                  'Login',
                   style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w500,
                       fontSize: 30),
                 )),
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Sign in',
-                  style: TextStyle(fontSize: 20),
-                )),
+            // Container(
+            //     alignment: Alignment.center,
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Text(
+            //       'Sign in',
+            //       style: TextStyle(fontSize: 20),
+            //     )),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -97,7 +97,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 const Text('Does not have account?'),
                 TextButton(
                   child: const Text(
-                    'Sign in',
+                    'Sign Up',
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
