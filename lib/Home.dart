@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
   appBar: AppBar(
-    title: const Text('BottomNavigationBar Demo'),
+    title: const Text('HOME'),
   ),
   bottomNavigationBar: BottomNavigationBar(
     items: const <BottomNavigationBarItem>[
