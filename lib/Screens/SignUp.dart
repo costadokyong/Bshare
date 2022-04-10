@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
+import 'package:bshare/DataBase.dart';
 import 'package:flutter/material.dart';
+import 'package:bshare/Screens/SignIn.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -25,6 +27,26 @@ class _MySingUpState extends State<SingUp> {
     universityController.dispose();
     majorController.dispose();
     super.dispose();
+  }
+
+  createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Signed up Sucessfully"),
+            actions: [
+              MaterialButton(
+                elevation: 5.0,
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignIn()));
+                },
+              )
+            ],
+          );
+        });
   }
 
   Widget myContainer(
@@ -120,12 +142,10 @@ class _MySingUpState extends State<SingUp> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   style: style,
-                  onPressed: () {
-                    // print("Validation Ok! Submit");
-                    // print('name: ${nameController.text}');
-                    // print('name: ${passwordController.text}');
-                    // print('name: ${universityController.text}');
-                    // print('name: ${majorController.text}');
+                  onPressed: () async {
+                    register(nameController.text, passwordController.text,
+                        universityController.text, majorController.text);
+                    createAlertDialog(context);
                   },
                   child: Text('Sign Up'),
                 ),

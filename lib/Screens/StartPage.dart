@@ -1,5 +1,6 @@
 import 'package:bshare/Screens/SignIn.dart';
 import 'package:bshare/Screens/SignUp.dart';
+import 'package:bshare/route_generator.dart';
 import 'package:flutter/material.dart';
 
 class FirstPage extends StatelessWidget {
@@ -59,14 +60,7 @@ class FirstPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25)),
                       color: Colors.indigo,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) {
-                              return const SingUp(); //title: 'Bshare'
-                            }),
-                          ),
-                        );
+                        Navigator.of(context).pushNamed("/SignUpPage");
                       },
                       child: const Text(
                         'SIGN UP',
@@ -89,14 +83,7 @@ class FirstPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25)),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) {
-                              return const SignIn(); //title: 'Bshare'
-                            }),
-                          ),
-                        );
+                        Navigator.of(context).pushNamed("/SignInPage");
                       },
                       child: const Text(
                         'ALREADY HAVE AN ACCOUNT?',
