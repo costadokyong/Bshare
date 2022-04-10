@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
 
+import 'package:bshare/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bshare/Screens/StartPage.dart';
@@ -16,10 +17,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //title: 'Bshare',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: FutureBuilder(
         future: _fpApp,
         builder: (context, snapshot) {
@@ -27,7 +24,10 @@ class MyApp extends StatelessWidget {
             print('You have an error! ${snapshot.error.toString()}');
             return Text('Something went wrong');
           } else if (snapshot.hasData) {
-            return FirstPage();
+            return MaterialApp(
+              initialRoute: '/',
+              onGenerateRoute: RouteGenerator.generateRoute,
+            );
           } else {
             return Center(
               child: CircularProgressIndicator(),
