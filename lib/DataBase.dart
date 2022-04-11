@@ -6,8 +6,9 @@ final database = FirebaseDatabase(
     .ref();
 final userTable = database.child('UsersInfo/');
 
-Future<void> register(
-    String username, String password, String university, String major) async {
+Future<void> register(String username, String email, String password,
+    String university, String major) async {
+  //String text
   try {
     await userTable.child(username).set({
       'password': password,
