@@ -3,6 +3,7 @@
 import 'package:bshare/DataBase.dart';
 import 'package:flutter/material.dart';
 import 'package:bshare/Screens/SignIn.dart';
+import 'package:bshare/Screens/Home.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -42,8 +43,10 @@ class _MySingUpState extends State<SingUp> {
                 elevation: 5.0,
                 child: Text("Ok"),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignIn()));
+                  Navigator.push(
+                      context,
+                      //MaterialPageRoute(builder: (context) => SignIn())
+                      MaterialPageRoute(builder: (context) => Home()));
                 },
               )
             ],
