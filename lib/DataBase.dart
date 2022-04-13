@@ -14,6 +14,7 @@ Future<void> register(String username, String email, String password,
       'password': password,
       'University': university,
       'major': major,
+      'email': email
     });
     print('users info added successfull');
   } catch (e) {
