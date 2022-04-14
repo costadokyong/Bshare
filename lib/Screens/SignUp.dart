@@ -3,6 +3,7 @@
 import 'package:bshare/DataBase.dart';
 import 'package:flutter/material.dart';
 import 'package:bshare/Screens/SignIn.dart';
+import 'package:bshare/Screens/Home.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -15,6 +16,7 @@ class SingUp extends StatefulWidget {
 
 class _MySingUpState extends State<SingUp> {
   final nameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final universityController = TextEditingController();
   final majorController = TextEditingController();
@@ -23,6 +25,7 @@ class _MySingUpState extends State<SingUp> {
   void dispose() {
     //Clean up the controller when the Widget is disposed
     nameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     universityController.dispose();
     majorController.dispose();
@@ -40,8 +43,10 @@ class _MySingUpState extends State<SingUp> {
                 elevation: 5.0,
                 child: Text("Ok"),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignIn()));
+                  Navigator.push(
+                      context,
+                      //MaterialPageRoute(builder: (context) => SignIn())
+                      MaterialPageRoute(builder: (context) => Home()));
                 },
               )
             ],
@@ -115,6 +120,13 @@ class _MySingUpState extends State<SingUp> {
               height: 5.0,
             ),
             myContainer(
+                title: '  Email',
+                labelText: 'Enter Email',
+                controller: emailController),
+            SizedBox(
+              height: 5.0,
+            ),
+            myContainer(
                 title: '  Password',
                 labelText: 'Enter Password',
                 controller: passwordController),
@@ -143,8 +155,12 @@ class _MySingUpState extends State<SingUp> {
                 child: ElevatedButton(
                   style: style,
                   onPressed: () async {
-                    register(nameController.text, passwordController.text,
-                        universityController.text, majorController.text);
+                    register(
+                        nameController.text,
+                        emailController.text,
+                        passwordController.text,
+                        universityController.text,
+                        majorController.text);
                     createAlertDialog(context);
                   },
                   child: Text('Sign Up'),
