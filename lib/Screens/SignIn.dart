@@ -2,6 +2,9 @@
 
 //import 'dart:html';
 
+import 'dart:developer';
+import 'package:bshare/DataBase.dart';
+import 'package:bshare/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,8 +15,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<SignIn> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     //icon: Icon(Icons.email),
-                    labelText: 'User Name',
+                    labelText: 'email',
                   ),
                 ),
               ),
@@ -51,7 +55,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     //icon: Icon(Icons.lock),
-                    labelText: 'Password',
+                    labelText: 'password',
                   ),
                 ),
               ),
@@ -69,8 +73,8 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
+                      log(nameController.text);
+                      log(passwordController.text);
                     },
                   )),
               Row(
@@ -91,5 +95,37 @@ class _MyStatefulWidgetState extends State<SignIn> {
             ],
           )),
     );
+  }
+
+  //Jerry
+
+  Widget customButton(Size size) {
+    return GestureDetector(onTap: () {
+      if (nameController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty) {
+        setState(() {
+          isLoading = true;
+        });
+
+        logIn(nameController.text, passwordController.text).then((user) {
+          if (user != null) {
+            log("Login Successful");
+            setState(() {
+              isLoading = false;
+            });
+            // Connection between HomePage And Login code
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => HomeScreen()));
+          } else {
+            log("Login Failed");
+            setState(() {
+              isLoading = false;
+            });
+          }
+        });
+      } else {
+        log("Please fill in Form correctly");
+      }
+    });
   }
 }

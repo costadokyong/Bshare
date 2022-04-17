@@ -23,7 +23,7 @@ class RouteGenerator {
 
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(child: Text('ERROR')),
       );
     });

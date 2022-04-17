@@ -3,6 +3,7 @@
 import 'package:bshare/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:bshare/Screens/StartPage.dart';
 
 void main() {
