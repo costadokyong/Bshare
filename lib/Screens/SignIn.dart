@@ -2,6 +2,8 @@
 
 //import 'dart:html';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -69,6 +71,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
+                      context.router.push(HomeRoute());
                       print(nameController.text);
                       print(passwordController.text);
                     },
@@ -82,7 +85,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      //signup screen
+                      context.navigateTo(SingUpRoute());
                     },
                   )
                 ],

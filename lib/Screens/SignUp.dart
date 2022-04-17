@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
+import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
+import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:bshare/Screens/SignIn.dart';
 import 'package:bshare/Screens/Home.dart';
@@ -43,10 +45,13 @@ class _MySingUpState extends State<SingUp> {
                 elevation: 5.0,
                 child: Text("Ok"),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      //MaterialPageRoute(builder: (context) => SignIn())
-                      MaterialPageRoute(builder: (context) => Home()));
+                  Navigator.of(context).pop();
+                  nameController.clear();
+                  emailController.clear();
+                  passwordController.clear();
+                  universityController.clear();
+                  majorController.clear();
+                  context.router.push(SignInRoute());
                 },
               )
             ],
@@ -97,78 +102,80 @@ class _MySingUpState extends State<SingUp> {
     );
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'SignUp',
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'SignUp',
+                    style:
+                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ),
-            myContainer(
-                title: '  Username',
-                labelText: 'Enter Username',
-                controller: nameController),
-            SizedBox(
-              height: 5.0,
-            ),
-            myContainer(
-                title: '  Email',
-                labelText: 'Enter Email',
-                controller: emailController),
-            SizedBox(
-              height: 5.0,
-            ),
-            myContainer(
-                title: '  Password',
-                labelText: 'Enter Password',
-                controller: passwordController),
-            SizedBox(
-              height: 5.0,
-            ),
-            myContainer(
-                title: '  University',
-                labelText: 'Enter University',
-                controller: universityController),
-            SizedBox(
-              height: 5.0,
-            ),
-            myContainer(
-                title: '  Major',
-                labelText: 'Enter Major',
-                controller: majorController),
-            SizedBox(
-              height: 18.0,
-            ),
-            SizedBox(
-              width: 150.0,
-              height: 45.0,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  style: style,
-                  onPressed: () async {
-                    register(
-                        nameController.text,
-                        emailController.text,
-                        passwordController.text,
-                        universityController.text,
-                        majorController.text);
-                    createAlertDialog(context);
-                  },
-                  child: Text('Sign Up'),
-                ),
+              myContainer(
+                  title: '  Username',
+                  labelText: 'Enter Username',
+                  controller: nameController),
+              SizedBox(
+                height: 5.0,
               ),
-            )
-          ],
-        ),
+              myContainer(
+                  title: '  Email',
+                  labelText: 'Enter Email',
+                  controller: emailController),
+              SizedBox(
+                height: 5.0,
+              ),
+              myContainer(
+                  title: '  Password',
+                  labelText: 'Enter Password',
+                  controller: passwordController),
+              SizedBox(
+                height: 5.0,
+              ),
+              myContainer(
+                  title: '  University',
+                  labelText: 'Enter University',
+                  controller: universityController),
+              SizedBox(
+                height: 5.0,
+              ),
+              myContainer(
+                  title: '  Major',
+                  labelText: 'Enter Major',
+                  controller: majorController),
+              SizedBox(
+                height: 18.0,
+              ),
+              SizedBox(
+                width: 150.0,
+                height: 45.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: style,
+                    onPressed: () async {
+                      register(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          universityController.text,
+                          majorController.text);
+                      createAlertDialog(context);
+                    },
+                    child: Text('Sign Up'),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
