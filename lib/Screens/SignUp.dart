@@ -3,9 +3,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
 import 'package:bshare/routes/router.gr.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:bshare/Screens/SignIn.dart';
-import 'package:bshare/Screens/Home.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -22,6 +21,7 @@ class _MySingUpState extends State<SingUp> {
   final passwordController = TextEditingController();
   final universityController = TextEditingController();
   final majorController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -51,6 +51,7 @@ class _MySingUpState extends State<SingUp> {
                   passwordController.clear();
                   universityController.clear();
                   majorController.clear();
+
                   context.router.push(SignInRoute());
                 },
               )
@@ -62,7 +63,9 @@ class _MySingUpState extends State<SingUp> {
   Widget myContainer(
       {required String title,
       required String labelText,
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      required bool isEmail,
+      required bool isPassword}) {
     //String hintText
     return Container(
       alignment: Alignment.topLeft,
@@ -80,7 +83,8 @@ class _MySingUpState extends State<SingUp> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-            child: TextField(
+            child: TextFormField(
+              obscureText: isPassword,
               style: TextStyle(height: 0.5, fontSize: 14.0),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -88,6 +92,18 @@ class _MySingUpState extends State<SingUp> {
                 //hintText: hintText,
               ),
               controller: controller,
+              validator: (value) {
+                if (isEmail) {
+                  if (EmailValidator.validate(value!) == false) {
+                    return 'Please enter a valid email';
+                  }
+                } else {
+                  if (value == null || value.isEmpty) {
+                    return 'Required Field';
+                  }
+                }
+                return null;
+              },
             ),
           ),
         ],
@@ -105,75 +121,90 @@ class _MySingUpState extends State<SingUp> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'SignUp',
-                    style:
-                        TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'SignUp',
+                      style: TextStyle(
+                          fontSize: 25.0, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-              ),
-              myContainer(
-                  title: '  Username',
-                  labelText: 'Enter Username',
-                  controller: nameController),
-              SizedBox(
-                height: 5.0,
-              ),
-              myContainer(
-                  title: '  Email',
-                  labelText: 'Enter Email',
-                  controller: emailController),
-              SizedBox(
-                height: 5.0,
-              ),
-              myContainer(
-                  title: '  Password',
-                  labelText: 'Enter Password',
-                  controller: passwordController),
-              SizedBox(
-                height: 5.0,
-              ),
-              myContainer(
-                  title: '  University',
-                  labelText: 'Enter University',
-                  controller: universityController),
-              SizedBox(
-                height: 5.0,
-              ),
-              myContainer(
-                  title: '  Major',
-                  labelText: 'Enter Major',
-                  controller: majorController),
-              SizedBox(
-                height: 18.0,
-              ),
-              SizedBox(
-                width: 150.0,
-                height: 45.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: style,
-                    onPressed: () async {
-                      register(
-                          nameController.text,
-                          emailController.text,
-                          passwordController.text,
-                          universityController.text,
-                          majorController.text);
-                      createAlertDialog(context);
-                    },
-                    child: Text('Sign Up'),
-                  ),
+                myContainer(
+                    title: '  Username',
+                    labelText: 'Enter Username',
+                    controller: nameController,
+                    isEmail: false,
+                    isPassword: false),
+                SizedBox(
+                  height: 5.0,
                 ),
-              )
-            ],
+                myContainer(
+                    title: '  Email',
+                    labelText: 'Enter Email',
+                    controller: emailController,
+                    isEmail: true,
+                    isPassword: false),
+                SizedBox(
+                  height: 5.0,
+                ),
+                myContainer(
+                    title: '  Password',
+                    labelText: 'Enter Password',
+                    controller: passwordController,
+                    isEmail: false,
+                    isPassword: true),
+                SizedBox(
+                  height: 5.0,
+                ),
+                myContainer(
+                    title: '  University',
+                    labelText: 'Enter University',
+                    controller: universityController,
+                    isEmail: false,
+                    isPassword: false),
+                SizedBox(
+                  height: 5.0,
+                ),
+                myContainer(
+                    title: '  Major',
+                    labelText: 'Enter Major',
+                    controller: majorController,
+                    isEmail: false,
+                    isPassword: false),
+                SizedBox(
+                  height: 18.0,
+                ),
+                SizedBox(
+                  width: 150.0,
+                  height: 45.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: style,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          register(
+                              nameController.text,
+                              emailController.text,
+                              passwordController.text,
+                              universityController.text,
+                              majorController.text);
+                          createAlertDialog(context);
+                        }
+                      },
+                      child: Text('Sign Up'),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
