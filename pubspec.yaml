@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.1.0
+  
 
 dev_dependencies:
 
@@ -61,6 +62,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - major_list/
     - images/booksWallpper.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

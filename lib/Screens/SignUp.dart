@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
 import 'package:bshare/routes/router.gr.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -22,6 +25,37 @@ class _MySingUpState extends State<SingUp> {
   final universityController = TextEditingController();
   final majorController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<String> _majorList = [];
+  List<DropdownMenuItem<String>> majorListItems = <DropdownMenuItem<String>>[];
+  String _dropdownValue = '';
+
+  Future<List<String>> getMajorList() async {
+    List<String> majorList = [];
+    await rootBundle.loadString('major_list/majorlist.txt').then((major) {
+      for (String i in LineSplitter().convert(major)) {
+        majorList.add(i);
+      }
+    });
+    return majorList;
+  }
+
+  @override
+  void initState() {
+    _setup();
+    super.initState();
+  }
+
+  _setup() async {
+    List<String> mList = await getMajorList();
+
+    setState(() {
+      _majorList = mList.toSet().toList();
+      _dropdownValue = _majorList[0];
+      majorListItems = _majorList.map<DropdownMenuItem<String>>((item) {
+        return DropdownMenuItem<String>(value: item, child: Text(item));
+      }).toList();
+    });
+  }
 
   @override
   void dispose() {
@@ -58,6 +92,38 @@ class _MySingUpState extends State<SingUp> {
             ],
           );
         });
+  }
+
+  Widget majorListDropDown({required String title}) {
+    return Container(
+      alignment: Alignment.topRight,
+      child: Column(children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          child: DropdownButtonFormField<String>(
+            value: _dropdownValue,
+            hint: Text('Major'),
+            elevation: 16,
+            onChanged: (String? newValue) {
+              setState(() {
+                _dropdownValue = newValue!;
+              });
+            },
+            items: majorListItems,
+          ),
+        )
+      ]),
+    );
   }
 
   Widget myContainer(
@@ -172,12 +238,7 @@ class _MySingUpState extends State<SingUp> {
                 SizedBox(
                   height: 5.0,
                 ),
-                myContainer(
-                    title: '  Major',
-                    labelText: 'Enter Major',
-                    controller: majorController,
-                    isEmail: false,
-                    isPassword: false),
+                majorListDropDown(title: 'Major'),
                 SizedBox(
                   height: 18.0,
                 ),
@@ -190,7 +251,7 @@ class _MySingUpState extends State<SingUp> {
                       style: style,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          register(
+                          await register(
                               nameController.text,
                               emailController.text,
                               passwordController.text,
