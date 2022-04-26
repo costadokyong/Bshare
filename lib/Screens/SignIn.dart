@@ -2,7 +2,11 @@
 
 //import 'dart:html';
 
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:bshare/DataBase.dart';
+import 'package:bshare/Screens/Home.dart';
 import 'package:bshare/routes/router.gr.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +19,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<SignIn> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -93,12 +97,25 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        logIn(emailController.text, passwordController.text)
+                            .then((user) {
+                          if (user != null) {
+                            print("login sucessful");
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => Home()));
+                          } else {
+                            print("login failed");
+                          }
+                        });
+                      }
+
                       if (_formKey.currentState!.validate()) {
                         emailController.clear();
                         passwordController.clear();
-                        context.router.push(HomeRoute());
-                        print(emailController.text);
-                        print(passwordController.text);
+                        log(emailController.text);
+                        log(passwordController.text);
                       }
                     },
                   )),
