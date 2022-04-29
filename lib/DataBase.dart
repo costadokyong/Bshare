@@ -37,28 +37,6 @@ Future<User?> register(String username, String email, String password,
   }
 }
 
-/*Future<User?> register(String username, String email, String password,
-    String university, String major) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  try {
-    User? user = (await _auth.createUserWithEmailAndPassword(
-            email: email, password: password))
-        .user;
-
-    if (user != null) {
-      print("Login successful");
-      return user;
-    } else {
-      print("account createion failed");
-      return user;
-    }
-  } catch (e) {
-    print(e);
-    return null;
-  }
-}*/
-
 Future<User?> logIn(String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
