@@ -57,6 +57,8 @@ class _MySingUpState extends State<SingUp> {
     });
   }
 
+  bool isLoading = false;
+
   @override
   void dispose() {
     //Clean up the controller when the Widget is disposed

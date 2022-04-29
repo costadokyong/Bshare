@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 final database = FirebaseDatabase(
@@ -6,8 +9,9 @@ final database = FirebaseDatabase(
     .ref();
 final userTable = database.child('UsersInfo/');
 
-Future<void> register(String username, String email, String password,
+Future<User?> register(String username, String email, String password,
     String university, String major) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   //String text
   try {
     await userTable.child(username).set({
@@ -16,8 +20,51 @@ Future<void> register(String username, String email, String password,
       'major': major,
       'email': email
     });
-    print('users info added successfull');
+    User? user = (await _auth.createUserWithEmailAndPassword(
+            email: email, password: password))
+        .user;
+
+    if (user != null) {
+      log('users info added successfull');
+      return user;
+    } else {
+      print("account createion failed");
+      return user;
+    }
   } catch (e) {
-    print('you got an error $e');
+    log('you got an error $e');
+    return null;
+  }
+}
+
+Future<User?> logIn(String email, String password) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    User? user = (await _auth.signInWithEmailAndPassword(
+            email: email, password: password))
+        .user;
+
+    if (user != null) {
+      print("login sucessful");
+      return user;
+    } else {
+      print("Login failed");
+      return user;
+    }
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
+
+Future logOut() async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await _auth.signOut();
+  } catch (e) {
+    print("error");
+    print(e);
   }
 }
