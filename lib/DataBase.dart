@@ -9,17 +9,14 @@ final database = FirebaseDatabase(
     .ref();
 final userTable = database.child('UsersInfo/');
 
-Future<User?> register(String username, String email, String password,
-    String university, String major) async {
+Future<User?> register(
+    String username, String email, String password, String major) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
   //String text
   try {
-    await userTable.child(username).set({
-      'password': password,
-      'University': university,
-      'major': major,
-      'email': email
-    });
+    await userTable
+        .child(username)
+        .set({'password': password, 'major': major, 'email': email});
     User? user = (await _auth.createUserWithEmailAndPassword(
             email: email, password: password))
         .user;

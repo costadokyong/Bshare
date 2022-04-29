@@ -97,8 +97,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      if (emailController.text.isNotEmpty &&
-                          passwordController.text.isNotEmpty) {
+                      if (_formKey.currentState!.validate()) {
                         logIn(emailController.text, passwordController.text)
                             .then((user) {
                           if (user != null) {
@@ -106,8 +105,8 @@ class _MyStatefulWidgetState extends State<SignIn> {
                                 context: context,
                                 builder: (context) => CustomDialogAuth(
                                       title: "Successfully Login",
+                                      isSignIn: true,
                                     ));
-                            _formKey.currentState!.validate();
                             emailController.clear();
                             passwordController.clear();
                             print("login sucessful");
@@ -119,16 +118,12 @@ class _MyStatefulWidgetState extends State<SignIn> {
                                       description:
                                           "Your email or password is incorrect, Please try again",
                                     ));
-                            _formKey.currentState!.validate();
                             emailController.clear();
                             passwordController.clear();
                             print("login failed");
                           }
                         });
                       }
-                      _formKey.currentState!.validate();
-                      log(emailController.text);
-                      log(passwordController.text);
                     },
                   )),
               Row(
@@ -234,9 +229,8 @@ class CustomDialog extends StatelessWidget {
 // make new widget for new alert dialog
 class CustomDialogAuth extends StatelessWidget {
   final String title;
-  const CustomDialogAuth({
-    required this.title,
-  });
+  final bool isSignIn;
+  const CustomDialogAuth({required this.title, required this.isSignIn});
 
   @override
   Widget build(BuildContext context) {
@@ -281,8 +275,13 @@ class CustomDialogAuth extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    context.router.push(HomeRoute());
+                    if (isSignIn) {
+                      Navigator.of(context).pop();
+                      context.router.push(HomeRoute());
+                    } else {
+                      Navigator.of(context).pop();
+                      context.router.push(SignInRoute());
+                    }
                   },
                   child: Text("Okay"),
                 ),
