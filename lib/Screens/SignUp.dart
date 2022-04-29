@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
-import 'package:auto_route/auto_route.dart';
+import 'dart:convert';
+
 import 'package:bshare/DataBase.dart';
-import 'package:bshare/routes/router.gr.dart';
+import 'package:bshare/Screens/SignIn.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:searchfield/searchfield.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({
@@ -22,6 +25,39 @@ class _MySingUpState extends State<SingUp> {
   final universityController = TextEditingController();
   final majorController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<String> _majorList = [];
+  List<SearchFieldListItem<String>> majorListItems =
+      <SearchFieldListItem<String>>[];
+
+  Future<List<String>> getMajorList() async {
+    List<String> majorList = [];
+    await rootBundle.loadString('major_list/majorlist.txt').then((major) {
+      for (String i in LineSplitter().convert(major)) {
+        majorList.add(i);
+      }
+    });
+    return majorList;
+  }
+
+  @override
+  void initState() {
+    _setup();
+    super.initState();
+  }
+
+  _setup() async {
+    List<String> mList = await getMajorList();
+
+    setState(() {
+      _majorList = mList.toSet().toList();
+
+      majorListItems = _majorList.map<SearchFieldListItem<String>>((item) {
+        return SearchFieldListItem<String>(item);
+      }).toList();
+    });
+  }
+
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -34,30 +70,37 @@ class _MySingUpState extends State<SingUp> {
     super.dispose();
   }
 
-  createAlertDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Signed up Sucessfully"),
-            actions: [
-              MaterialButton(
-                elevation: 5.0,
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  nameController.clear();
-                  emailController.clear();
-                  passwordController.clear();
-                  universityController.clear();
-                  majorController.clear();
-
-                  context.router.push(SignInRoute());
-                },
-              )
-            ],
-          );
-        });
+  Widget majorListDropDown(
+      {required String title, required TextEditingController controller}) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Column(children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          child: SearchField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Required Field';
+              }
+            },
+            controller: controller,
+            suggestions: majorListItems,
+            itemHeight: 50,
+            maxSuggestionsInViewPort: 6,
+          ),
+        )
+      ]),
+    );
   }
 
   Widget myContainer(
@@ -163,21 +206,10 @@ class _MySingUpState extends State<SingUp> {
                 SizedBox(
                   height: 5.0,
                 ),
-                myContainer(
-                    title: '  University',
-                    labelText: 'Enter University',
-                    controller: universityController,
-                    isEmail: false,
-                    isPassword: false),
                 SizedBox(
                   height: 5.0,
                 ),
-                myContainer(
-                    title: '  Major',
-                    labelText: 'Enter Major',
-                    controller: majorController,
-                    isEmail: false,
-                    isPassword: false),
+                majorListDropDown(title: 'Major', controller: majorController),
                 SizedBox(
                   height: 18.0,
                 ),
@@ -190,13 +222,23 @@ class _MySingUpState extends State<SingUp> {
                       style: style,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          register(
+                          await register(
                               nameController.text,
                               emailController.text,
                               passwordController.text,
-                              universityController.text,
                               majorController.text);
-                          createAlertDialog(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomDialogAuth(
+                              title: 'Signed Up Successfully',
+                              isSignIn: false,
+                            ),
+                          );
+                          nameController.clear();
+                          emailController.clear();
+                          passwordController.clear();
+                          universityController.clear();
+                          majorController.clear();
                         }
                       },
                       child: Text('Sign Up'),
