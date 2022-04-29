@@ -221,19 +221,37 @@ class _MySingUpState extends State<SingUp> {
                     child: ElevatedButton(
                       style: style,
                       onPressed: () async {
+                        int loginFlag;
                         if (_formKey.currentState!.validate()) {
-                          await register(
+                          loginFlag = await register(
                               nameController.text,
                               emailController.text,
                               passwordController.text,
                               majorController.text);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomDialogAuth(
-                              title: 'Signed Up Successfully',
-                              isSignIn: false,
-                            ),
-                          );
+
+                          switch (loginFlag) {
+                            case 1:
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomDialogAuth(
+                                  title: 'Signed Up Successfully',
+                                  isSignIn: false,
+                                ),
+                              );
+                              break;
+                            case 2:
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomDialog(
+                                  title: 'Error',
+                                  description:
+                                      'The email address is already in use by another account',
+                                ),
+                              );
+                              break;
+
+                            default:
+                          }
                           nameController.clear();
                           emailController.clear();
                           passwordController.clear();

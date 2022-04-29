@@ -1,36 +1,50 @@
 import 'dart:developer';
 
+import 'package:bshare/Screens/SignUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'Screens/SignIn.dart';
 
 final database = FirebaseDatabase(
         databaseURL:
             "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
     .ref();
 final userTable = database.child('UsersInfo/');
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future<User?> register(
+Future<int> register(
     String username, String email, String password, String major) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
   //String text
   try {
+    await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
     await userTable
         .child(username)
         .set({'password': password, 'major': major, 'email': email});
-    User? user = (await _auth.createUserWithEmailAndPassword(
-            email: email, password: password))
-        .user;
+    return 1;
+  } on FirebaseAuthException catch (singUpError) {
+    if (singUpError.code.contains('email-already-in-use')) {
+      return 2;
+    }
+  }
+  return 1;
+}
 
-    if (user != null) {
-      log('users info added successfull');
-      return user;
+Future<bool> checkifEmailInUse(String emailAddres) async {
+  try {
+    final list = await _auth.fetchSignInMethodsForEmail(emailAddres);
+
+    if (list.isEmpty) {
+      return true;
     } else {
-      print("account createion failed");
-      return user;
+      return false;
     }
   } catch (e) {
-    log('you got an error $e');
-    return null;
+    print('you got an error $e');
+    return false;
   }
 }
 
