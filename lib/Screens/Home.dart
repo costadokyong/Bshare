@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
     HomeScreen(),
     MsgScreen(),
     SearchPage(),
-    ProfileScreeen(),
+    Profile(),
   ];
 
   @override

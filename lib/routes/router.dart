@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/Screens/Home.dart';
+//import 'package:bshare/Screens/IconNavigationScreens/ProfileScreen.dart';
+import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart';
+import 'package:bshare/Screens/ProfileScreen/Settings.dart';
+import 'package:bshare/Screens/Settings/ProfileEdit.dart';
 import 'package:bshare/Screens/SignIn.dart';
 import 'package:bshare/Screens/SignUp.dart';
 import 'package:bshare/Screens/StartPage.dart';
@@ -42,7 +46,36 @@ import 'package:bshare/Screens/StartPage.dart';
       children: [
         RedirectRoute(path: '*', redirectTo: ''),
       ],
-    )
+    ),
+
+    //Settings route
+    AutoRoute(
+      path: '/settings',
+      page: Settings,
+      children: [
+        RedirectRoute(path: '*', redirectTo: ''),
+      ],
+    ),
+
+    //My Profile Settings route
+    AutoRoute(
+      path: '/myProfileSettings',
+      page: MyProfileSettings,
+      children: [
+        RedirectRoute(path: '*', redirectTo: ''),
+      ],
+    ),
+
+    //My Profile Edit route
+    AutoRoute(
+      path: '/profileEdit',
+      page: ProfileEdit,
+      children: [
+        RedirectRoute(path: '*', redirectTo: ''),
+      ],
+    ),
+
+    //
   ],
 )
 class $AppRouter {}
