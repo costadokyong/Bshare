@@ -97,7 +97,7 @@ class SingUpRoute extends _i5.PageRouteInfo<void> {
 /// generated route for
 /// [_i3.SignIn]
 class SignInRoute extends _i5.PageRouteInfo<void> {
-  const SignInRoute({List<_i5.PageRouteInfo>? children})
+  const SignInRoute(Set<Type> set, {List<_i5.PageRouteInfo>? children})
       : super(SignInRoute.name, path: '/signin', initialChildren: children);
 
   static const String name = 'SignInRoute';
