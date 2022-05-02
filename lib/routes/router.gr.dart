@@ -9,6 +9,7 @@
 // **************************************************************************
 //
 // ignore_for_file: type=lint
+//import 'package:bshare/Screens/Upload.dart' as _i10;
 import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart' as _i8;
 import 'package:bshare/Screens/ProfileScreen/Settings.dart' as _i7;
 import 'package:bshare/Screens/Settings/ProfileEdit.dart' as _i9;
@@ -51,7 +52,13 @@ class AppRouter extends _i5.RootStackRouter {
     ProfileEditRoute.name: (routeData) {
       return _i5.AdaptivePage<dynamic>(
           routeData: routeData, child: _i9.ProfileEdit());
-    }
+    },
+    //Upload screen still in progress
+
+    // UploadRoute.name: (routeData) {
+    //   return _i5.AdaptivePage<dynamic>(
+    //       routeData: routeData, child: _i10.Upload());
+    // }
   };
 
   @override
@@ -106,6 +113,13 @@ class AppRouter extends _i5.RootStackRouter {
           _i5.RouteConfig('*#redirect',
               path: '*',
               parent: ProfileEditRoute.name,
+              redirectTo: '',
+              fullMatch: true)
+        ]),
+        _i5.RouteConfig(ProfileEditRoute.name, path: '/uploadFile', children: [
+          _i5.RouteConfig('*#redirect',
+              path: '*',
+              parent: UploadRoute.name,
               redirectTo: '',
               fullMatch: true)
         ]),
@@ -176,4 +190,13 @@ class ProfileEditRoute extends _i5.PageRouteInfo<void> {
             path: '/profileEdit', initialChildren: children);
 
   static const String name = 'ProfileEditRoute';
+}
+
+/// generated route for
+/// [_i10.Upload]
+class UploadRoute extends _i5.PageRouteInfo<void> {
+  const UploadRoute({List<_i5.PageRouteInfo>? children})
+      : super(UploadRoute.name, path: '/uploadFile', initialChildren: children);
+
+  static const String name = 'UploadRoute';
 }

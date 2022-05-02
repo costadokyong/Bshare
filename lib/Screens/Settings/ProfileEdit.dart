@@ -88,20 +88,9 @@ class _ProfileEditSettingsState extends State<ProfileEditSettings> {
             ),
           ),
         ),
-
         const SizedBox(
           height: 248.0,
         ),
-        // Align(
-        //   alignment: Alignment.bottomCenter,
-        //   child: Expanded(
-        //     child: ElevatedButton(
-        //       onPressed: () {},
-        //       child: const Text('Done'),
-        //     ),
-        //   ),
-        // )
-
         InkWell(
           onTap: () {
             print('Pushed');

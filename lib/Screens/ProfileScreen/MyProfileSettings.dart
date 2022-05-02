@@ -49,13 +49,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(top: 50.0),
-          //margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 50.0),
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              // Icon(
-              //   Icons.account_box_rounded,
-              //   size: 150.0,
               CircleAvatar(
                 //this is the placeholder for the user image
                 backgroundImage: NetworkImage(
@@ -89,7 +84,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             height: 45.0,
             margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
             decoration: BoxDecoration(
-                //color: Colors.green,
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(Radius.circular(4.0))),
             child: Center(
