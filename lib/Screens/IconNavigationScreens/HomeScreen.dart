@@ -1,7 +1,9 @@
-// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables
+// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables, prefer_const_constructors
 
-import 'package:bshare/Screens/Upload.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:bshare/Screens/Upload.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,23 +13,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreenPage(),
-    );
-  }
-}
-
-class HomeScreenPage extends StatefulWidget {
-  HomeScreenPage({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreenPage> createState() => _HomeScreenPageState();
-}
-
-class _HomeScreenPageState extends State<HomeScreenPage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+      // home: HomeScreenPage(),
+      home: Scaffold(
         appBar: AppBar(
           title: const Text('Bshare'),
           actions: [
@@ -45,10 +32,28 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
             )
           ],
         ),
+        body: HomeScreenPage(),
+      ),
+    );
+  }
+}
+
+class HomeScreenPage extends StatefulWidget {
+  HomeScreenPage({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreenPage> createState() => _HomeScreenPageState();
+}
+
+class _HomeScreenPageState extends State<HomeScreenPage> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
         body: HomeScreen2(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //still on progress
+            // still on progress
 
             // Navigator.push(
             //   context,
@@ -56,6 +61,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
             //     builder: (context) => const Upload(),
             //   ),
             // );
+            context.navigateTo(UploadRoute());
           },
           backgroundColor: Colors.deepOrange,
           child: const Icon(

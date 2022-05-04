@@ -42,6 +42,10 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+  String username = 'Username';
+  String email = "username@email.com";
+  String phoneNumber = '000-0000-000';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +54,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           alignment: Alignment.center,
           margin: EdgeInsets.only(top: 50.0),
           child: Column(
-            children: const [
+            children: [
               CircleAvatar(
                 //this is the placeholder for the user image
                 backgroundImage: NetworkImage(
@@ -61,11 +65,25 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 height: 25.0,
               ),
               Text(
-                'Username',
+                username,
                 style: TextStyle(fontSize: 25.0),
               ),
             ],
           ),
+        ),
+        SizedBox(
+          height: 30.0,
+        ),
+        Text(
+          email,
+          style: TextStyle(fontSize: 20.0),
+        ),
+        SizedBox(
+          height: 30.0,
+        ),
+        Text(
+          phoneNumber,
+          style: TextStyle(fontSize: 20.0),
         ),
         SizedBox(
           height: 30.0,

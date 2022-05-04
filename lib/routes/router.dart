@@ -71,16 +71,15 @@ import 'package:bshare/Screens/Upload.dart';
           ],
         ),
 
-        //Upload file still in progress
+        // My Profile Edit route
+        AutoRoute(
+          path: '/upload',
+          page: Upload,
+          children: [
+            RedirectRoute(path: '*', redirectTo: ''),
+          ],
+        ),
 
-        //My Profile Edit route
-        // AutoRoute(
-        //   path: '/uploadFile',
-        //   page: Upload,
-        //   children: [
-        //     RedirectRoute(path: '*', redirectTo: ''),
-        //   ],
-        // ),
         RedirectRoute(path: '*', redirectTo: ''),
       ],
     ),

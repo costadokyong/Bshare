@@ -89,7 +89,37 @@ class _ProfileEditSettingsState extends State<ProfileEditSettings> {
           ),
         ),
         const SizedBox(
-          height: 248.0,
+          height: 30.0,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 12.0),
+          //The user can edit his name in this placeholder
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            // ignore: prefer_const_constructors
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Enter your email',
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 30.0,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 12.0),
+          //The user can edit his name in this placeholder
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            // ignore: prefer_const_constructors
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Enter your phone number',
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 70.0,
         ),
         InkWell(
           onTap: () {
