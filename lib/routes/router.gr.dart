@@ -9,7 +9,10 @@
 // **************************************************************************
 //
 // ignore_for_file: type=lint
-
+import 'package:bshare/Screens/Upload.dart' as _i10;
+import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart' as _i8;
+import 'package:bshare/Screens/ProfileScreen/Settings.dart' as _i7;
+import 'package:bshare/Screens/Settings/ProfileEdit.dart' as _i9;
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:bshare/Screens/Home.dart' as _i4;
 import 'package:bshare/Screens/SignIn.dart' as _i3;
@@ -37,6 +40,22 @@ class AppRouter extends _i5.RootStackRouter {
     },
     HomeRoute.name: (routeData) {
       return _i5.AdaptivePage<dynamic>(routeData: routeData, child: _i4.Home());
+    },
+    SettingsRoute.name: (routeData) {
+      return _i5.AdaptivePage<dynamic>(
+          routeData: routeData, child: _i7.Settings());
+    },
+    MyProfileSettingsRoute.name: (routeData) {
+      return _i5.AdaptivePage<dynamic>(
+          routeData: routeData, child: _i8.MyProfileSettings());
+    },
+    ProfileEditRoute.name: (routeData) {
+      return _i5.AdaptivePage<dynamic>(
+          routeData: routeData, child: _i9.ProfileEdit());
+    },
+    UploadRoute.name: (routeData) {
+      return _i5.AdaptivePage<dynamic>(
+          routeData: routeData, child: _i10.Upload());
     }
   };
 
@@ -71,7 +90,37 @@ class AppRouter extends _i5.RootStackRouter {
               parent: HomeRoute.name,
               redirectTo: '',
               fullMatch: true)
-        ])
+        ]),
+        _i5.RouteConfig(SettingsRoute.name, path: '/settings', children: [
+          _i5.RouteConfig('*#redirect',
+              path: '*',
+              parent: SettingsRoute.name,
+              redirectTo: '',
+              fullMatch: true)
+        ]),
+        _i5.RouteConfig(MyProfileSettingsRoute.name,
+            path: '/myProfileSettings',
+            children: [
+              _i5.RouteConfig('*#redirect',
+                  path: '*',
+                  parent: MyProfileSettingsRoute.name,
+                  redirectTo: '',
+                  fullMatch: true)
+            ]),
+        _i5.RouteConfig(ProfileEditRoute.name, path: '/profileEdit', children: [
+          _i5.RouteConfig('*#redirect',
+              path: '*',
+              parent: ProfileEditRoute.name,
+              redirectTo: '',
+              fullMatch: true)
+        ]),
+        _i5.RouteConfig(UploadRoute.name, path: '/upload', children: [
+          _i5.RouteConfig('*#redirect',
+              path: '*',
+              parent: UploadRoute.name,
+              redirectTo: '',
+              fullMatch: true)
+        ]),
       ];
 }
 
@@ -110,4 +159,42 @@ class HomeRoute extends _i5.PageRouteInfo<void> {
       : super(HomeRoute.name, path: '/home', initialChildren: children);
 
   static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [_i7.Settings]
+class SettingsRoute extends _i5.PageRouteInfo<void> {
+  const SettingsRoute({List<_i5.PageRouteInfo>? children})
+      : super(SettingsRoute.name, path: '/settings', initialChildren: children);
+
+  static const String name = 'SettingsRoute';
+}
+
+/// generated route for
+/// [_i8.MyProfileSettings]
+class MyProfileSettingsRoute extends _i5.PageRouteInfo<void> {
+  const MyProfileSettingsRoute({List<_i5.PageRouteInfo>? children})
+      : super(MyProfileSettingsRoute.name,
+            path: '/myProfileSettings', initialChildren: children);
+
+  static const String name = 'MyProfileSettingsRoute';
+}
+
+/// generated route for
+/// [_i9.ProfileEdit]
+class ProfileEditRoute extends _i5.PageRouteInfo<void> {
+  const ProfileEditRoute({List<_i5.PageRouteInfo>? children})
+      : super(ProfileEditRoute.name,
+            path: '/profileEdit', initialChildren: children);
+
+  static const String name = 'ProfileEditRoute';
+}
+
+/// generated route for
+/// [_i10.Upload]
+class UploadRoute extends _i5.PageRouteInfo<void> {
+  const UploadRoute({List<_i5.PageRouteInfo>? children})
+      : super(UploadRoute.name, path: '/upload', initialChildren: children);
+
+  static const String name = 'UploadRoute';
 }

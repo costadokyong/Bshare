@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bshare/Screens/BottomBar.dart';
+import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
+import 'package:bshare/Screens/IconNavigationScreens/ProfileScreen.dart';
+import 'package:bshare/Screens/IconNavigationScreens/SearchScreen.dart';
+import 'package:bshare/Screens/IconNavigationScreens/ChatScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,57 +13,59 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  BtmBar btmBar = BtmBar();
+  //BtmBar btmBar = BtmBar();
+
+  int selectedIndex = 0;
+
+  void onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  final List<Widget> _children = [
+    HomeScreen(),
+    MsgScreen(),
+    SearchPage(),
+    Profile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Bshare'),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.magnifyingGlass),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.bars),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.bell),
-              )
-            ],
-          ),
-          body: HomeScreen(),
-          bottomNavigationBar: btmBar,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: Colors.blue[200],
-            child: Icon(
-              FontAwesomeIcons.plus,
-              color: Colors.white,
+      home: Scaffold(
+        body: _children.elementAt(selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.blue,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.house),
+              label: 'Home',
+              backgroundColor: Colors.blue,
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.comments),
+              label: 'Chats',
+              backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.magnifyingGlass),
+              label: 'Search',
+              backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.user),
+              label: 'profile',
+              backgroundColor: Colors.blue,
+            ),
+          ],
+          currentIndex: selectedIndex,
+          selectedItemColor: Colors.white,
+          onTap: onItemTapped,
         ),
       ),
-    );
-  }
-}
-
-class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Loading'),
     );
   }
 }
