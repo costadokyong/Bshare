@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:auto_route/auto_route.dart';
+import 'package:bshare/DataBase.dart';
 import 'package:bshare/Screens/Settings/ProfileEdit.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bshare/Screens/ProfileScreen/Settings.dart';
@@ -63,6 +65,23 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String userData = "";
+
+  @override
+  void initState() {
+    _setUp();
+
+    super.initState();
+  }
+
+  _setUp() async {
+    String futureData = await getUserData('username');
+
+    setState(() {
+      userData = futureData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -91,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(width: 20.0),
                   Text(
-                    'username',
+                    userData,
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ],

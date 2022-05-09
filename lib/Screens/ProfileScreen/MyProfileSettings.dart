@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:bshare/Screens/Settings/ProfileEdit.dart';
+import 'package:bshare/DataBase.dart';
 
 class MyProfileSettings extends StatelessWidget {
   const MyProfileSettings({Key? key}) : super(key: key);
@@ -35,13 +37,36 @@ class MyProfileSettings extends StatelessWidget {
 }
 
 class MyProfileScreen extends StatefulWidget {
-  MyProfileScreen({Key? key}) : super(key: key);
+  const MyProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+  String userEmail = '';
+  String userMajor = '';
+  String userName = '';
+
+  @override
+  void initState() {
+    _setUp();
+    super.initState();
+  }
+
+  _setUp() async {
+    String FutureUserName = await getUserData('username');
+    String FutureEmail = await getUserData('email');
+    String FutureMajor = await getUserData('major');
+
+    setState(() {
+      userName = FutureUserName;
+      userEmail = FutureEmail;
+      userMajor = FutureMajor;
+      print('$FutureEmail, $FutureMajor, $FutureUserName');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,7 +77,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           //margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 50.0),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
               // Icon(
               //   Icons.account_box_rounded,
               //   size: 150.0,
@@ -66,8 +92,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 height: 25.0,
               ),
               Text(
-                'Username',
+                'User Name: $userName',
                 style: TextStyle(fontSize: 25.0),
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                'Major: $userMajor',
+                style: TextStyle(fontSize: 25.0),
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                'Email: $userEmail',
+                style: TextStyle(fontSize: 25.0),
+                textAlign: TextAlign.left,
               ),
             ],
           ),
