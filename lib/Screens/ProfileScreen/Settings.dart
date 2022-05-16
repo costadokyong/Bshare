@@ -60,7 +60,6 @@ class _MyProfileState extends State<MyProfile> {
           onTap: () {},
           child: Container(
             alignment: Alignment.topLeft,
-            // color: Colors.yellow,
             margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
             child: const Text(
               'Manage Account',
@@ -68,28 +67,6 @@ class _MyProfileState extends State<MyProfile> {
             ),
           ),
         ),
-        // InkWell(
-        //   onTap: () {},
-        //   child: Container(
-        //     alignment: Alignment.topLeft,
-        //     margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-        //     child: const Text(
-        //       'Followed User',
-        //       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
-        //     ),
-        //   ),
-        // ),
-        // InkWell(
-        //   onTap: () {},
-        //   child: Container(
-        //     alignment: Alignment.topLeft,
-        //     margin: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 8.0),
-        //     child: const Text(
-        //       'Other Settings',
-        //       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
-        //     ),
-        //   ),
-        // ),
         Divider(
           height: 8.0,
           thickness: 2.5,
@@ -103,29 +80,6 @@ class _MyProfileState extends State<MyProfile> {
             style: TextStyle(fontSize: 15.0),
           ),
         ),
-        // InkWell(
-        //   onTap: () {},
-        //   child: Container(
-        //     alignment: Alignment.topLeft,
-        //     // color: Colors.yellow,
-        //     margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-        //     child: const Text(
-        //       'Country',
-        //       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
-        //     ),
-        //   ),
-        // ),
-        // InkWell(
-        //   onTap: () {},
-        //   child: Container(
-        //     alignment: Alignment.topLeft,
-        //     margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-        //     child: const Text(
-        //       'Language Settings',
-        //       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.0),
-        //     ),
-        //   ),
-        // ),
         InkWell(
           onTap: () {
             //Navigates to the Log Out Screen
@@ -145,7 +99,6 @@ class _MyProfileState extends State<MyProfile> {
             ),
           ),
         ),
-
         InkWell(
           onTap: () {
             //Naviagtes to the Delete Account Screen

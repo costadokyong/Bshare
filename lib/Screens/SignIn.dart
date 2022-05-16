@@ -106,6 +106,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                                 builder: (context) => CustomDialogAuth(
                                       title: "Successfully Login",
                                       isSignIn: true,
+                                      isUpload: false,
                                     ));
                             emailController.clear();
                             passwordController.clear();
@@ -230,7 +231,9 @@ class CustomDialog extends StatelessWidget {
 class CustomDialogAuth extends StatelessWidget {
   final String title;
   final bool isSignIn;
-  const CustomDialogAuth({required this.title, required this.isSignIn});
+  final bool isUpload;
+  const CustomDialogAuth(
+      {required this.title, required this.isSignIn, required this.isUpload});
 
   @override
   Widget build(BuildContext context) {
@@ -278,6 +281,8 @@ class CustomDialogAuth extends StatelessWidget {
                     if (isSignIn) {
                       Navigator.of(context).pop();
                       context.router.push(HomeRoute());
+                    } else if (isUpload) {
+                      Navigator.pop(context);
                     } else {
                       Navigator.of(context).pop();
                       context.router.push(SignInRoute());

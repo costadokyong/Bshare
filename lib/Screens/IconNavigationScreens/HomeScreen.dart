@@ -1,6 +1,9 @@
-// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables
+// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables, prefer_const_constructors
 
+import 'package:auto_route/auto_route.dart';
+import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:bshare/Screens/Upload.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,27 +13,26 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Bshare'),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.magnifyingGlass),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.bars),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.bell),
-              )
-            ],
-          ),
-          body: HomeScreenPage(),
+      // home: HomeScreenPage(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Bshare'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(FontAwesomeIcons.magnifyingGlass),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(FontAwesomeIcons.bars),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(FontAwesomeIcons.bell),
+            )
+          ],
         ),
+        body: HomeScreenPage(),
       ),
     );
   }
@@ -46,21 +48,44 @@ class HomeScreenPage extends StatefulWidget {
 class _HomeScreenPageState extends State<HomeScreenPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Home Screen'),
-          // FloatingActionButton(
-          //   onPressed: () {},
-          //   backgroundColor: Colors.blue[200],
-          //   child: const Icon(
-          //     FontAwesomeIcons.plus,
-          //   ),
-          // ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: HomeScreen2(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // still on progress
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const Upload(),
+            //   ),
+            // );
+            context.navigateTo(UploadRoute());
+          },
+          backgroundColor: Colors.deepOrange,
+          child: const Icon(
+            Icons.upload,
+            color: Colors.white,
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class HomeScreen2 extends StatefulWidget {
+  HomeScreen2({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen2> createState() => _HomeScreen2State();
+}
+
+class _HomeScreen2State extends State<HomeScreen2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home Screen'),
     );
   }
 }

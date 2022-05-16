@@ -69,23 +69,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// appBar: AppBar(
-//             title: const Text('Bshare'),
-//             actions: [
-//               IconButton(
-//                 onPressed: () {},
-//                 icon: const Icon(FontAwesomeIcons.magnifyingGlass),
-//               ),
-//               IconButton(
-//                 onPressed: () {},
-//                 icon: const Icon(FontAwesomeIcons.bars),
-//               ),
-//               IconButton(
-//                 onPressed: () {},
-//                 icon: const Icon(FontAwesomeIcons.bell),
-//               )
-//             ],
-//           ),
-
-   

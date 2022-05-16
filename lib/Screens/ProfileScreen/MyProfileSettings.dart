@@ -63,7 +63,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       userName = FutureUserName;
       userEmail = FutureEmail;
       userMajor = FutureMajor;
-      print('$FutureEmail, $FutureMajor, $FutureUserName');
     });
   }
 
@@ -94,17 +93,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               Text(
                 'User Name: $userName',
                 style: TextStyle(fontSize: 25.0),
-                textAlign: TextAlign.left,
               ),
               Text(
                 'Major: $userMajor',
                 style: TextStyle(fontSize: 25.0),
-                textAlign: TextAlign.left,
               ),
               Text(
                 'Email: $userEmail',
                 style: TextStyle(fontSize: 25.0),
-                textAlign: TextAlign.left,
               ),
             ],
           ),

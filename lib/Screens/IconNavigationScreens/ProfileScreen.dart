@@ -13,17 +13,6 @@ import 'package:bshare/routes/router.gr.dart';
 
 void main() => runApp(
       MaterialApp(
-        initialRoute: '/',
-        routes: {
-          //This is the Profile screen route
-          '/': (context) => const Profile(),
-
-          //Navigates to the settings screen
-          '/second': (context) => const Settings(),
-
-          //Navigates to My Profile Screen
-          '/third': (context) => const MyProfileSettings(),
-        },
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -44,8 +33,6 @@ class Profile extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                //Navigator.pushNamed(context, '/second');
-                //context.router.push(Settings());
                 context.navigateTo(SettingsRoute());
               },
               icon: const FaIcon(FontAwesomeIcons.gear),
@@ -89,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           InkWell(
             onTap: () {
-              //Navigator.pushNamed(context, '/third');
               context.navigateTo(MyProfileSettingsRoute());
             },
             child: Container(
@@ -98,10 +84,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  // Icon(
-                  //   Icons.account_circle,
-                  //   size: 75.0,
-                  // ),
                   CircleAvatar(
                     //this is the placeholder for the user image
                     backgroundImage: NetworkImage(
@@ -139,51 +121,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             thickness: 5.0,
             color: Colors.teal[200],
           ),
-          // InkWell(
-          //     onTap: () {},
-          //     child: OtherOptions(
-          //         FontAwesomeIcons.locationDot, 'Neighborhood Settings')),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(
-          //       FontAwesomeIcons.locationCrosshairs, 'Verify Neighborhood'),
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(FontAwesomeIcons.tag, 'Search Alerts'),
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(
-          //       FontAwesomeIcons.locationCrosshairs, 'Verify Neighborhood'),
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(FontAwesomeIcons.sliders, 'Customize Feed'),
-          // ),
-          // Divider(
-          //   height: 15.0,
-          //   thickness: 5.0,
-          //   color: Colors.teal[200],
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(
-          //       FontAwesomeIcons.blog, 'My Local Post and Comments'),
-          // ),
-          // InkWell(
-          //   onTap: () {},
-          //   child: OtherOptions(FontAwesomeIcons.comment, 'My Store Review'),
-          // ),
-          // Divider(
-          //   height: 15.0,
-          //   thickness: 5.0,
-          //   color: Colors.teal[200],
-          // ),
           InkWell(
             onTap: () {
               //Navigate to the Settings screen using a name route
-              //Navigator.pushNamed(context, '/second');
               context.navigateTo(SettingsRoute());
             },
             child: OtherOptions(FontAwesomeIcons.gear, 'Settings'),
@@ -210,12 +150,10 @@ class OtherOptions extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 18.0),
       child: Row(
         children: [
-          //FaIcon(FontAwesomeIcons.locationDot),
           FaIcon(
             icon,
             size: 30.0,
           ),
-
           SizedBox(
             width: 12.0,
           ),
@@ -246,7 +184,6 @@ class IconsButtons extends StatelessWidget {
         child: Column(
           children: [
             FaIcon(
-              //FontAwesomeIcons.listCheck
               icon,
               size: height,
               color: color,
@@ -265,50 +202,3 @@ class IconsButtons extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-
-// class ProfileScreeen extends StatefulWidget {
-//   ProfileScreeen({Key? key}) : super(key: key);
-
-//   @override
-//   State<ProfileScreeen> createState() => _ProfileScreeenState();
-// }
-
-// class _ProfileScreeenState extends State<ProfileScreeen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('Profile Screen'),
-//     );
-//   }
-// }

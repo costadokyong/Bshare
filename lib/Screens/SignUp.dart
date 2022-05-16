@@ -236,6 +236,7 @@ class _MySingUpState extends State<SingUp> {
                                 builder: (context) => CustomDialogAuth(
                                   title: 'Signed Up Successfully',
                                   isSignIn: false,
+                                  isUpload: false,
                                 ),
                               );
                               break;

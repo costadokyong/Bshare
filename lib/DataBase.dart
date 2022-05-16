@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 final database = FirebaseDatabase(
         databaseURL:
             "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
     .ref();
-final userTable = database.child('UsersInfo/');
+final storage = FirebaseStorage.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
+final userTable = database.child('UsersInfo/');
+final bookTable = database.child('Books/');
 
 Future<int> register(
     String username, String email, String password, String major) async {
@@ -28,6 +34,43 @@ Future<int> register(
     }
   }
   return 1;
+}
+
+Future<void> uploadBook(
+  String bookId,
+  String bookTitle,
+  String bookDesc,
+  String price,
+) async {
+  String userId = _auth.currentUser!.uid;
+  String bookImageUrl = '';
+  try {
+    bookImageUrl = await storage.ref('$userId/$bookTitle').getDownloadURL();
+    print(bookImageUrl);
+  } catch (e) {
+    print(e);
+  }
+  try {
+    await bookTable.child(bookId).set({
+      'book title': bookTitle,
+      'book Description': bookDesc,
+      'book price': price,
+      'book image url': bookImageUrl,
+      'Book Owner id': _auth.currentUser!.uid,
+    });
+  } catch (e) {
+    print('you got an error $e');
+  }
+}
+
+Future<void> uploadBookImage(File bookImage, String bookImageTile) async {
+  String userId = _auth.currentUser!.uid;
+
+  try {
+    await storage.ref('$userId/$bookImageTile').putFile(bookImage);
+  } on FirebaseException catch (e) {
+    print(e);
+  }
 }
 
 Future<String> getUserData(String dataKey) async {
