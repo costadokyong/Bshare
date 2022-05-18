@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+// ignore: deprecated_member_use
 final database = FirebaseDatabase(
         databaseURL:
             "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
