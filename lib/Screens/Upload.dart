@@ -5,8 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:bshare/DataBase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:searchfield/searchfield.dart';
 import 'package:uuid/uuid.dart';
-
+import 'package:bshare/Screens/SignUp.dart';
 import 'SignIn.dart';
 
 class Upload extends StatelessWidget {
@@ -51,9 +52,13 @@ class UploadFile extends StatefulWidget {
 
 class _UploadFileState extends State<UploadFile> {
   //String dropDownValue = 'Categories';
+  List<String> _majorListForUpload = [];
+  List<SearchFieldListItem<String>> majorListforUploadItems =
+      <SearchFieldListItem<String>>[];
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController MajorController = TextEditingController();
   final TextEditingController descpController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   Image bookImage = Image.asset(
@@ -63,6 +68,24 @@ class _UploadFileState extends State<UploadFile> {
   );
   File? bookImageFile;
   var bookId = Uuid();
+
+  @override
+  void initState() {
+    _setUp();
+    super.initState();
+  }
+
+  _setUp() async {
+    List<String> mList = await MySingUpState().getMajorList();
+
+    setState(() {
+      _majorListForUpload = mList.toSet().toList();
+      majorListforUploadItems =
+          _majorListForUpload.map<SearchFieldListItem<String>>((item) {
+        return SearchFieldListItem<String>(item);
+      }).toList();
+    });
+  }
 
   Future pickImage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);
@@ -209,34 +232,14 @@ class _UploadFileState extends State<UploadFile> {
                     thickness: 1.0,
                     color: Colors.teal[100],
                   ),
+                  MySingUpState().majorListDropDown(
+                      title: 'Choose the major of the book',
+                      controller: MajorController,
+                      itemList: majorListforUploadItems),
                   const SizedBox(
                     height: 5.0,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  //   child: DropdownButton<String>(
-                  //     value: dropDownValue,
-                  //     isExpanded: true,
-                  //     onChanged: (String? newValue) {
-                  //       setState(() {
-                  //         dropDownValue = newValue!;
-                  //       });
-                  //     },
-                  //     items: <String>['Categories']
-                  //         .map<DropdownMenuItem<String>>((String value) {
-                  //       return DropdownMenuItem<String>(
-                  //         value: value,
-                  //         child: Text(value),
-                  //       );
-                  //     }).toList(),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 15.0,
-                  // ),
                   Padding(
-                    // padding: EdgeInsets.only(
-                    //     bottom: MediaQuery.of(context).viewInsets.bottom),
                     padding: EdgeInsets.all(10.0),
                     // ignore: prefer_const_constructors
                     child: TextFormField(
@@ -292,8 +295,12 @@ class _UploadFileState extends State<UploadFile> {
                 if (bookImageFile != null &&
                     _formKey.currentState!.validate()) {
                   await uploadBookImage(bookImageFile!, titleController.text);
-                  await uploadBook(bookId.v1(), titleController.text,
-                      descpController.text, priceController.text);
+                  await uploadBook(
+                      bookId.v1(),
+                      titleController.text,
+                      MajorController.text,
+                      descpController.text,
+                      priceController.text);
 
                   showDialog(
                       context: context,

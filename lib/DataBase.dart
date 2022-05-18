@@ -39,6 +39,7 @@ Future<int> register(
 Future<void> uploadBook(
   String bookId,
   String bookTitle,
+  String bookMajor,
   String bookDesc,
   String price,
 ) async {
@@ -53,6 +54,7 @@ Future<void> uploadBook(
   try {
     await bookTable.child(bookId).set({
       'bookTitle': bookTitle,
+      'bookMajor': bookMajor,
       'bookDescription': bookDesc,
       'bookPrice': price,
       'bookImageUrl': bookImageUrl,

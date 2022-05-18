@@ -15,10 +15,10 @@ class SingUp extends StatefulWidget {
   }) : super(key: key); //required this.title
 
   @override
-  State<SingUp> createState() => _MySingUpState();
+  State<SingUp> createState() => MySingUpState();
 }
 
-class _MySingUpState extends State<SingUp> {
+class MySingUpState extends State<SingUp> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -71,7 +71,9 @@ class _MySingUpState extends State<SingUp> {
   }
 
   Widget majorListDropDown(
-      {required String title, required TextEditingController controller}) {
+      {required String title,
+      required TextEditingController controller,
+      required List<SearchFieldListItem<String>> itemList}) {
     return Container(
       alignment: Alignment.topLeft,
       child: Column(children: [
@@ -94,7 +96,7 @@ class _MySingUpState extends State<SingUp> {
               }
             },
             controller: controller,
-            suggestions: majorListItems,
+            suggestions: itemList,
             itemHeight: 50,
             maxSuggestionsInViewPort: 6,
           ),
@@ -209,7 +211,10 @@ class _MySingUpState extends State<SingUp> {
                 SizedBox(
                   height: 5.0,
                 ),
-                majorListDropDown(title: 'Major', controller: majorController),
+                majorListDropDown(
+                    title: 'Major',
+                    controller: majorController,
+                    itemList: majorListItems),
                 SizedBox(
                   height: 18.0,
                 ),
