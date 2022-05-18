@@ -40,6 +40,7 @@ Future<int> register(
 Future<void> uploadBook(
   String bookId,
   String bookTitle,
+  String bookMajor,
   String bookDesc,
   String price,
 ) async {
@@ -53,11 +54,12 @@ Future<void> uploadBook(
   }
   try {
     await bookTable.child(bookId).set({
-      'book title': bookTitle,
-      'book Description': bookDesc,
-      'book price': price,
-      'book image url': bookImageUrl,
-      'Book Owner id': _auth.currentUser!.uid,
+      'bookTitle': bookTitle,
+      'bookMajor': bookMajor,
+      'bookDescription': bookDesc,
+      'bookPrice': price,
+      'bookImageUrl': bookImageUrl,
+      'bookOwnerId': _auth.currentUser!.uid,
     });
   } catch (e) {
     print('you got an error $e');
