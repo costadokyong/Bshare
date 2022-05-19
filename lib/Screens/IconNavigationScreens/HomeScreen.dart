@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeScreenPage extends StatefulWidget {
-  //HomeScreenPage({Key? key}) : super(key: key);
+  HomeScreenPage({Key? key}) : super(key: key);
 
   @override
   State<HomeScreenPage> createState() => _HomeScreenPageState();
@@ -58,10 +58,15 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     //     // ignore: deprecated_member_use
     //     FirebaseDatabase().instance.ref().child("Books");
 
-    final referenceData = FirebaseDatabase.instance.ref().child("Books");
+    // ignore: deprecated_member_use
+    final referenceData = FirebaseDatabase(
+            databaseURL:
+                "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
+        .ref()
+        .child("Books");
 
     // ignore: avoid_single_cascade_in_expression_statements
-    referenceData.once().then(
+    referenceData.onValue.listen(
       (event) {
         Map<dynamic, dynamic> map =
             event.snapshot.value as Map<dynamic, dynamic>;
@@ -149,12 +154,13 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
 }
 
 // ignore: non_constant_identifier_names
-Widget CardUI(File imageUrl, String bookTitle, int price, String description) {
+Widget CardUI(File bookImageUrl, String bookTitle, int bookPrice,
+    String bookDescription) {
   return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Image.file(
-          imageUrl,
+          bookImageUrl,
           height: 110.0,
           width: 100.0,
         ),
@@ -165,8 +171,8 @@ Widget CardUI(File imageUrl, String bookTitle, int price, String description) {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(bookTitle, style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(description),
-                Text("Price: " + price.toString()),
+                Text(bookDescription),
+                Text("Price: " + bookPrice.toString()),
               ],
             ),
           ),
