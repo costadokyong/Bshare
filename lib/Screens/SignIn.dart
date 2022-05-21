@@ -3,9 +3,9 @@
 //import 'dart:html';
 
 import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
-import 'package:bshare/Screens/ForgetPassword.dart';
 import 'package:bshare/Screens/Home.dart';
 import 'package:bshare/routes/router.gr.dart';
 import 'package:email_validator/email_validator.dart';
@@ -86,8 +86,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
               TextButton(
                 onPressed: () {
                   //forgot password screen
-                  //context.navigateTo(ForgetPassword());
-                  Navigator.pushNamed(context, ForgetPassword.routeName);
+                  context.navigateTo(ForgetPasswordRoute());
                 },
                 child: const Text(
                   'Forgot Password',
@@ -121,7 +120,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                                       description:
                                           "Your email or password is incorrect, Please try again",
                                     ));
-                            _formKey.currentState!.validate();
+                            // _formKey.currentState!.validate();
                             emailController.clear();
                             passwordController.clear();
                             print("login failed");

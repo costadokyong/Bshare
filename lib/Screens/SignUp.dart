@@ -53,8 +53,8 @@ class _MySingUpState extends State<SingUp> {
                   passwordController.clear();
                   universityController.clear();
                   majorController.clear();
-
                   context.router.push(SignInRoute());
+                  //context.router.push();
                 },
               )
             ],

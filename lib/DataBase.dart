@@ -58,13 +58,7 @@ Future<User?> logIn(String email, String password) async {
   }
 }
 
-Future logOut() async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  try {
-    await _auth.signOut();
-  } catch (e) {
-    print("error");
-    print(e);
-  }
+Future SignOut() async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  await _auth.signOut();
 }

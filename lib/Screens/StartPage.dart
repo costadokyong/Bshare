@@ -59,7 +59,7 @@ class FirstPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25)),
                       color: Colors.indigo,
                       onPressed: () {
-                        context.router.push(SingUpRoute());
+                        context.router.push(const SingUpRoute());
                       },
                       child: const Text(
                         'SIGN UP',
@@ -82,7 +82,7 @@ class FirstPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25)),
                       color: Colors.white,
                       onPressed: () {
-                        context.navigateTo(SignInRoute());
+                        context.navigateTo(const SignInRoute());
                       },
                       child: const Text(
                         'ALREADY HAVE AN ACCOUNT?',

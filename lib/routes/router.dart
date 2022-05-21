@@ -18,6 +18,15 @@ import 'package:bshare/Screens/StartPage.dart';
       ],
     ),
 
+    //
+    AutoRoute(
+      path: '/forgetPassword',
+      page: ForgetPassword,
+      children: [
+        RedirectRoute(path: '*', redirectTo: ''),
+      ],
+    ),
+
     // SingUp Route
     AutoRoute(
       path: '/signup',
@@ -35,11 +44,6 @@ import 'package:bshare/Screens/StartPage.dart';
         RedirectRoute(path: '*', redirectTo: ''),
       ],
     ),
-
-    // ForgetPassword route
-    AutoRoute(path: '/forgetPassword', page: ForgetPassword, children: [
-      RedirectRoute(path: '*', redirectTo: ''),
-    ]),
 
     //Home route
     AutoRoute(
