@@ -1,10 +1,14 @@
-// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables, prefer_const_constructors
+// ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables, prefer_const_constructors, unused_local_variable
+import 'dart:ffi';
+import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
 import 'package:bshare/routes/router.gr.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:bshare/Screens/Upload.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:bshare/DataBase.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,19 +20,31 @@ class HomeScreen extends StatelessWidget {
       // home: HomeScreenPage(),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Bshare'),
+          title: const Text(
+            'Bshare',
+            style: TextStyle(color: Colors.black),
+          ),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(FontAwesomeIcons.magnifyingGlass),
+              icon: const Icon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: Colors.black,
+              ),
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(FontAwesomeIcons.bars),
+              icon: const Icon(
+                FontAwesomeIcons.bars,
+                color: Colors.black,
+              ),
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(FontAwesomeIcons.bell),
+              icon: const Icon(
+                FontAwesomeIcons.bell,
+                color: Colors.black,
+              ),
             )
           ],
         ),
@@ -46,46 +62,150 @@ class HomeScreenPage extends StatefulWidget {
 }
 
 class _HomeScreenPageState extends State<HomeScreenPage> {
+  // ignore: deprecated_member_use
+  final _referenceData = FirebaseDatabase(
+          databaseURL:
+              "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
+      .ref();
+
+  @override
+  void initState() {
+    super.initState();
+    //getBookList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: HomeScreen2(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // still on progress
+    return Scaffold(
+      // ignore: prefer_is_empty
+      body: StreamBuilder(
+        stream: _referenceData.child("Books").onValue,
+        builder: (context, snapshot) {
+          final bookList = <Widget>[];
+          try {
+            if (snapshot.hasData) {
+              //CircularProgressIndicator();
+              final myBooks = Map<String, dynamic>.from(
+                  (snapshot.data as dynamic).snapshot.value);
+              bookList.addAll(
+                myBooks.values.map((value) {
+                  final mybookData =
+                      BookData.fromRTDB(Map<String, dynamic>.from(value));
+                  return CardUI(mybookData.bookImageUrl, mybookData.bookTitle,
+                      mybookData.bookPrice, mybookData.bookDescription);
+                }),
+              );
+            } else {
+              Center(
+                child: Text(
+                  'No data available',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+                ),
+              );
+            }
+            // ignore: avoid_print
+          } catch (e) {
+            print(e.toString());
+          }
 
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const Upload(),
-            //   ),
-            // );
-            context.navigateTo(UploadRoute());
-          },
-          backgroundColor: Colors.deepOrange,
-          child: const Icon(
-            Icons.upload,
-            color: Colors.white,
-          ),
+          return SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: ListView(
+                    children: bookList,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.navigateTo(UploadRoute());
+        },
+        backgroundColor: Colors.orange,
+        child: const Icon(
+          Icons.upload,
+          color: Colors.white,
         ),
       ),
     );
   }
 }
 
-class HomeScreen2 extends StatefulWidget {
-  HomeScreen2({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen2> createState() => _HomeScreen2State();
-}
-
-class _HomeScreen2State extends State<HomeScreen2> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Home Screen'),
-    );
-  }
+// ignore: non_constant_identifier_names
+CardUI(String bookImageUrl, String bookTitle, String bookPrice,
+    String bookDescription) {
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        InkWell(
+          onTap: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // ignore: avoid_unnecessary_containers
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white10,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(3.0),
+                  ),
+                ),
+                child: Image(
+                  image: NetworkImage(bookImageUrl),
+                  fit: BoxFit.fitWidth,
+                  height: 120.0,
+                  width: 100.0,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        bookTitle,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        bookDescription,
+                        style: TextStyle(fontSize: 12.0),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        "Price: " + bookPrice.toString(),
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: 1.0,
+          thickness: 1.0,
+          color: Colors.teal,
+        ),
+        SizedBox(
+          height: 3.0,
+        ),
+      ],
+    ),
+  );
 }
