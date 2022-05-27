@@ -43,7 +43,7 @@ Future<void> uploadBook(
   String bookTitle,
   String bookMajor,
   String bookDesc,
-  String price,
+  int price,
 ) async {
   String userId = _auth.currentUser!.uid;
   String bookImageUrl = '';
@@ -80,6 +80,15 @@ Future<void> uploadBookImage(File bookImage, String bookImageTile) async {
 Future<String> getUserData(String dataKey) async {
   final User? _user = await _auth.currentUser!;
   String userId = _user!.uid;
+  String dataValue;
+
+  DataSnapshot? result = await userTable.child('$userId/$dataKey').get();
+  dataValue = result.value.toString();
+
+  return dataValue;
+}
+
+Future<String> getUserDataByPath(String userId, String dataKey) async {
   String dataValue;
 
   DataSnapshot? result = await userTable.child('$userId/$dataKey').get();
