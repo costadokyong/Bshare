@@ -3,7 +3,9 @@ import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:bshare/DataBase.dart';
 import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
+import 'package:bshare/Screens/IconNavigationScreens/BookDetails.dart';
 import 'package:bshare/routes/router.gr.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -91,8 +93,15 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
                 myBooks.values.map((value) {
                   final mybookData =
                       BookData.fromRTDB(Map<String, dynamic>.from(value));
-                  return CardUI(mybookData.bookImageUrl, mybookData.bookTitle,
-                      mybookData.bookPrice, mybookData.bookDescription);
+
+                  return CardUI(
+                      mybookData.bookImageUrl,
+                      mybookData.bookTitle,
+                      mybookData.bookPrice,
+                      mybookData.bookDescription,
+                      mybookData.bookMajor,
+                      mybookData.bookOwnerId,
+                      context);
                 }),
               );
             } else {
@@ -138,13 +147,41 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
 }
 
 // ignore: non_constant_identifier_names
-CardUI(String bookImageUrl, String bookTitle, String bookPrice,
-    String bookDescription) {
+CardUI(
+    String bookImageUrl,
+    String bookTitle,
+    int bookPrice,
+    String bookDescription,
+    String bookMajor,
+    String bookOwnerId,
+    BuildContext context) {
   return SingleChildScrollView(
     child: Column(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () async {
+            var booksInfo = [];
+            String bookOwnerMajor = '';
+            String bookOwnerUserName = '';
+            bookOwnerMajor = await getUserDataByPath(bookOwnerId, 'major');
+            bookOwnerUserName =
+                await getUserDataByPath(bookOwnerId, 'username');
+            booksInfo.addAll([
+              bookImageUrl,
+              bookTitle,
+              bookPrice,
+              bookDescription,
+              bookMajor,
+              bookOwnerMajor,
+              bookOwnerUserName
+            ]);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookDetails(
+                          booksInfo: booksInfo,
+                        )));
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -180,14 +217,14 @@ CardUI(String bookImageUrl, String bookTitle, String bookPrice,
                         height: 10.0,
                       ),
                       Text(
-                        bookDescription,
-                        style: TextStyle(fontSize: 12.0),
+                        bookMajor,
+                        style: TextStyle(fontSize: 14.0),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        "Price: " + bookPrice.toString(),
+                        "Price: " + bookPrice.toString() + '₩',
                         style: TextStyle(fontSize: 14.0),
                       ),
                     ],

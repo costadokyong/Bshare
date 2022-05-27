@@ -68,6 +68,8 @@ class _UploadFileState extends State<UploadFile> {
   );
   File? bookImageFile;
   var bookId = Uuid();
+  double price = 0;
+  int intPrice = 0;
 
   @override
   void initState() {
@@ -178,12 +180,16 @@ class _UploadFileState extends State<UploadFile> {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Icon(
-                      Icons.camera_alt,
-                      size: 50.0,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        const Icon(
+                          Icons.camera_alt,
+                          size: 50.0,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -192,7 +198,7 @@ class _UploadFileState extends State<UploadFile> {
             const SizedBox(
               height: 15.0,
             ),
-            bookImage,
+            Container(child: bookImage),
             Divider(
               indent: 20.0,
               endIndent: 20.0,
@@ -239,22 +245,6 @@ class _UploadFileState extends State<UploadFile> {
                   const SizedBox(
                     height: 5.0,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                    // ignore: prefer_const_constructors
-                    child: TextFormField(
-                      controller: priceController,
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Enter Your desired Price',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Required Field';
-                        }
-                      },
-                    ),
-                  ),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -280,6 +270,36 @@ class _UploadFileState extends State<UploadFile> {
                 ],
               ),
             ),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              // ignore: prefer_const_constructors
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Choose the Price',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Slider(
+                    value: price,
+                    min: 0,
+                    max: 100000,
+                    divisions: 10,
+                    label: '$intPrice₩',
+                    onChanged: (value) {
+                      setState(() {
+                        price = value;
+                        intPrice = price.toInt();
+                      });
+                    },
+                  ),
+                  Text(
+                    'Price: $intPrice₩',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(
               height: 160.0,
             ),
@@ -295,12 +315,8 @@ class _UploadFileState extends State<UploadFile> {
                 if (bookImageFile != null &&
                     _formKey.currentState!.validate()) {
                   await uploadBookImage(bookImageFile!, titleController.text);
-                  await uploadBook(
-                      bookId.v1(),
-                      titleController.text,
-                      MajorController.text,
-                      descpController.text,
-                      priceController.text);
+                  await uploadBook(bookId.v1(), titleController.text,
+                      MajorController.text, descpController.text, intPrice);
 
                   showDialog(
                       context: context,
@@ -310,6 +326,7 @@ class _UploadFileState extends State<UploadFile> {
                             isUpload: true,
                           ));
                   titleController.clear();
+                  MajorController.clear();
                   descpController.clear();
                   priceController.clear();
                   setState(() {

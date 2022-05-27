@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/Screens/Home.dart';
+import 'package:bshare/Screens/IconNavigationScreens/BookDetails.dart';
 import 'package:bshare/Screens/IconNavigationScreens/ProfileScreen.dart';
 import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart';
 import 'package:bshare/Screens/ProfileScreen/Settings.dart';
@@ -48,6 +49,13 @@ import 'package:bshare/Screens/Upload.dart';
         AutoRoute(
           path: '/settings',
           page: Settings,
+          children: [
+            RedirectRoute(path: '*', redirectTo: ''),
+          ],
+        ),
+        AutoRoute(
+          path: '/BookDetail',
+          page: BookDetails,
           children: [
             RedirectRoute(path: '*', redirectTo: ''),
           ],
