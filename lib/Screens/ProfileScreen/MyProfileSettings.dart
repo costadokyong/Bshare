@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
 
 import 'package:bshare/routes/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       children: [
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(top: 50.0),
+          margin: EdgeInsets.only(top: 30.0),
           //margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 50.0),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
@@ -85,28 +85,20 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 //this is the placeholder for the user image
                 backgroundImage: NetworkImage(
                     'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
-                radius: 100,
+                radius: 60,
               ),
               SizedBox(
                 height: 25.0,
               ),
-              Text(
-                'User Name: $userName',
-                style: TextStyle(fontSize: 25.0),
-              ),
-              Text(
-                'Major: $userMajor',
-                style: TextStyle(fontSize: 25.0),
-              ),
-              Text(
-                'Email: $userEmail',
-                style: TextStyle(fontSize: 25.0),
-              ),
+              // ignore: unnecessary_string_interpolations
+              fieldCard('$userName', Icons.person),
+              fieldCard('$userMajor', Icons.class_),
+              fieldCard('$userEmail', Icons.email_rounded)
             ],
           ),
         ),
         SizedBox(
-          height: 30.0,
+          height: 60.0,
         ),
         TextButton(
           onPressed: () {
@@ -120,7 +112,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           },
           child: Container(
             height: 45.0,
-            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
             decoration: BoxDecoration(
                 //color: Colors.green,
                 border: Border.all(color: Colors.black),
@@ -136,6 +128,29 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Card fieldCard(String title, IconData fieldIcon) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+      //padding: EdgeInsets.all(10.0),
+      child: ListTile(
+        leading: Icon(
+          //Icons.verified_user,
+          fieldIcon,
+          color: Colors.black54,
+        ),
+        title: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'RobotoFlex',
+              fontWeight: FontWeight.w200,
+              fontSize: 20.0),
+        ),
+      ),
     );
   }
 }
