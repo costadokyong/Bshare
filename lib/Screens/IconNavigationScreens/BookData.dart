@@ -6,6 +6,7 @@ class BookData {
   String bookDescription;
   String bookMajor;
   String bookOwnerId;
+  String bookId;
 
   BookData(
       {required this.bookImageUrl,
@@ -13,7 +14,8 @@ class BookData {
       required this.bookPrice,
       required this.bookDescription,
       required this.bookMajor,
-      required this.bookOwnerId});
+      required this.bookOwnerId,
+      required this.bookId});
 
   factory BookData.fromRTDB(Map<String, dynamic> data) {
     return BookData(
@@ -23,6 +25,7 @@ class BookData {
         bookPrice: data['bookPrice'] ?? 0,
         bookDescription: data['bookDescription'] ?? 'No description',
         bookMajor: data['bookMajor'] ?? 'Unknow',
-        bookOwnerId: data['bookOwnerId'] ?? 'Unknow');
+        bookOwnerId: data['bookOwnerId'] ?? 'Unknow',
+        bookId: data['bookId'] ?? 'Unknow');
   }
 }

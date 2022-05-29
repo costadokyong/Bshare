@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bshare/DataBase.dart';
 import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
 import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
 import 'package:bshare/Screens/SignUp.dart';
@@ -41,9 +42,11 @@ class _SearchPageState extends State<SearchPage> {
       bookPrice: 0,
       bookDescription: '',
       bookMajor: '',
-      bookOwnerId: '');
+      bookOwnerId: '',
+      bookId: '');
 
   List<BookData> theBooks = <BookData>[];
+  List<BookData> theBookstoBeSearched = <BookData>[];
   List<BookData> bookSuggestions = <BookData>[];
   List<BookData> bookSearchResults = <BookData>[];
 
@@ -134,6 +137,10 @@ class _SearchPageState extends State<SearchPage> {
 
                       return bookData;
                     }).toList();
+
+                    theBookstoBeSearched = theBooks.where((book) {
+                      return !getUserId().contains(book.bookOwnerId);
+                    }).toList();
                     // setState(() {
                     //   bookList = theBooks.map<Widget>((book) {
                     //     return CardUI(
@@ -181,7 +188,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   searchBookByName(String titleQuery) {
-    bookSuggestions = theBooks.where((book) {
+    bookSuggestions = theBookstoBeSearched.where((book) {
       final bookTitle = book.bookTitle.toLowerCase();
       final titleInput = titleQuery.toLowerCase();
       return bookTitle.contains(titleInput);
@@ -190,8 +197,15 @@ class _SearchPageState extends State<SearchPage> {
 
     setState(() {
       bookList = bookSuggestions.map<Widget>((book) {
-        return CardUI(book.bookImageUrl, book.bookTitle, book.bookPrice,
-            book.bookDescription, book.bookMajor, book.bookOwnerId, context);
+        return CardUI(
+            book.bookImageUrl,
+            book.bookTitle,
+            book.bookPrice,
+            book.bookDescription,
+            book.bookMajor,
+            book.bookOwnerId,
+            book.bookId,
+            context);
       }).toList();
     });
     if (bookList.isEmpty) {
@@ -214,7 +228,7 @@ class _SearchPageState extends State<SearchPage> {
         return bookMajor.contains(majorInput);
       }).toList();
     } else {
-      bookSuggestions = theBooks.where((book) {
+      bookSuggestions = theBookstoBeSearched.where((book) {
         final bookMajor = book.bookMajor;
         final majorInput = majorQuery;
         return bookMajor.contains(majorInput);
@@ -224,8 +238,15 @@ class _SearchPageState extends State<SearchPage> {
 
     setState(() {
       bookList = bookSuggestions.map<Widget>((book) {
-        return CardUI(book.bookImageUrl, book.bookTitle, book.bookPrice,
-            book.bookDescription, book.bookMajor, book.bookOwnerId, context);
+        return CardUI(
+            book.bookImageUrl,
+            book.bookTitle,
+            book.bookPrice,
+            book.bookDescription,
+            book.bookMajor,
+            book.bookOwnerId,
+            book.bookId,
+            context);
       }).toList();
     });
     if (bookList.isEmpty) {
@@ -250,8 +271,15 @@ class _SearchPageState extends State<SearchPage> {
 
     setState(() {
       bookList = bookSuggestions.map<Widget>((book) {
-        return CardUI(book.bookImageUrl, book.bookTitle, book.bookPrice,
-            book.bookDescription, book.bookMajor, book.bookOwnerId, context);
+        return CardUI(
+            book.bookImageUrl,
+            book.bookTitle,
+            book.bookPrice,
+            book.bookDescription,
+            book.bookMajor,
+            book.bookOwnerId,
+            book.bookId,
+            context);
       }).toList();
     });
     if (bookList.isEmpty) {
