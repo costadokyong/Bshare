@@ -39,6 +39,11 @@ Future<int> register(
   return 1;
 }
 
+String getUserId() {
+  String userId = _auth.currentUser!.uid;
+  return userId;
+}
+
 Future<void> uploadBook(
   String bookId,
   String bookTitle,
@@ -48,6 +53,7 @@ Future<void> uploadBook(
 ) async {
   String userId = _auth.currentUser!.uid;
   String bookImageUrl = '';
+
   try {
     bookImageUrl = await storage.ref('$userId/$bookTitle').getDownloadURL();
     print(bookImageUrl);
@@ -62,6 +68,7 @@ Future<void> uploadBook(
       'bookPrice': price,
       'bookImageUrl': bookImageUrl,
       'bookOwnerId': _auth.currentUser!.uid,
+      'bookId': bookId,
     });
   } catch (e) {
     print('you got an error $e');
@@ -79,6 +86,35 @@ Future<void> uploadBook(
       'bookPrice': price,
       'bookImageUrl': bookImageUrl,
       'bookOwnerId': _auth.currentUser!.uid,
+      'bookId': bookId,
+    });
+  } catch (e) {
+    print('you got an error $e');
+  }
+}
+
+Future<void> uploadFavoriteBooks(
+  String bookId,
+  String bookTitle,
+  String bookMajor,
+  String bookDesc,
+  int price,
+  String bookImageUrl,
+  String bookOwnerId,
+) async {
+  try {
+    await database
+        .child('favorites')
+        .child(_auth.currentUser!.uid)
+        .child(bookId)
+        .set({
+      'bookTitle': bookTitle,
+      'bookMajor': bookMajor,
+      'bookDescription': bookDesc,
+      'bookPrice': price,
+      'bookImageUrl': bookImageUrl,
+      'bookOwnerId': _auth.currentUser!.uid,
+      'bookId': bookId,
     });
   } catch (e) {
     print('you got an error $e');

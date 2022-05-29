@@ -1,3 +1,4 @@
+import 'package:bshare/DataBase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -188,7 +189,16 @@ class BookDetailsState extends State<BookDetails> {
                   ),
                   FloatingActionButton(
                     child: const Icon(Icons.favorite_border),
-                    onPressed: () {},
+                    onPressed: () async {
+                      uploadFavoriteBooks(
+                          booksInfo[7],
+                          booksInfo[1],
+                          booksInfo[4],
+                          booksInfo[3],
+                          booksInfo[2],
+                          booksInfo[0],
+                          booksInfo[5]);
+                    },
                   ),
                 ],
               ),

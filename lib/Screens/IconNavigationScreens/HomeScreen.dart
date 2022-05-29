@@ -1,6 +1,4 @@
 // ignore_for_file: dead_code, unused_label, prefer_const_constructors_in_immutables, prefer_const_constructors, unused_local_variable
-import 'dart:ffi';
-import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
@@ -76,6 +74,18 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
     //getBookList();
   }
 
+  BookData bookData = BookData(
+      bookImageUrl: '',
+      bookTitle: '',
+      bookPrice: 0,
+      bookDescription: '',
+      bookMajor: '',
+      bookOwnerId: '',
+      bookId: '');
+
+  List<BookData> booksToBeShowed = <BookData>[];
+  List<BookData> allBooks = <BookData>[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,27 +93,34 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       body: StreamBuilder(
         stream: _referenceData.child("Books").onValue,
         builder: (context, snapshot) {
-          final bookList = <Widget>[];
+          var bookList = <Widget>[];
           try {
             if (snapshot.hasData) {
               //CircularProgressIndicator();
               final myBooks = Map<String, dynamic>.from(
                   (snapshot.data as dynamic).snapshot.value);
-              bookList.addAll(
-                myBooks.values.map((value) {
-                  final mybookData =
-                      BookData.fromRTDB(Map<String, dynamic>.from(value));
+              allBooks = myBooks.values.map<BookData>((value) {
+                bookData = BookData.fromRTDB(Map<String, dynamic>.from(value));
+                allBooks.add(bookData);
 
-                  return CardUI(
-                      mybookData.bookImageUrl,
-                      mybookData.bookTitle,
-                      mybookData.bookPrice,
-                      mybookData.bookDescription,
-                      mybookData.bookMajor,
-                      mybookData.bookOwnerId,
-                      context);
-                }),
-              );
+                return bookData;
+              }).toList();
+
+              booksToBeShowed = allBooks.where((book) {
+                return !getUserId().contains(book.bookOwnerId);
+              }).toList();
+
+              bookList = booksToBeShowed.map<Widget>((book) {
+                return CardUI(
+                    book.bookImageUrl,
+                    book.bookTitle,
+                    book.bookPrice,
+                    book.bookDescription,
+                    book.bookMajor,
+                    book.bookOwnerId,
+                    book.bookId,
+                    context);
+              }).toList();
             } else {
               Center(
                 child: Text(
@@ -154,6 +171,7 @@ CardUI(
     String bookDescription,
     String bookMajor,
     String bookOwnerId,
+    String bookId,
     BuildContext context) {
   return SingleChildScrollView(
     child: Column(
@@ -173,7 +191,8 @@ CardUI(
               bookDescription,
               bookMajor,
               bookOwnerMajor,
-              bookOwnerUserName
+              bookOwnerUserName,
+              bookId
             ]);
             Navigator.push(
                 context,
