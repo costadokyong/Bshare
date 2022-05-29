@@ -29,6 +29,7 @@ Future<int> register(
       'email': email,
       'username': username,
     });
+
     return 1;
   } on FirebaseAuthException catch (singUpError) {
     if (singUpError.code.contains('email-already-in-use')) {
@@ -64,6 +65,23 @@ Future<void> uploadBook(
     });
 
     await bookTable.child(bookId).set({
+      'bookTitle': bookTitle,
+      'bookMajor': bookMajor,
+      'bookDescription': bookDesc,
+      'bookPrice': price,
+      'bookImageUrl': bookImageUrl,
+      'bookOwnerId': _auth.currentUser!.uid,
+    });
+  } catch (e) {
+    print('you got an error $e');
+  }
+
+  try {
+    await userTable
+        .child(_auth.currentUser!.uid)
+        .child('userBooks')
+        .child(bookId)
+        .set({
       'bookTitle': bookTitle,
       'bookMajor': bookMajor,
       'bookDescription': bookDesc,
