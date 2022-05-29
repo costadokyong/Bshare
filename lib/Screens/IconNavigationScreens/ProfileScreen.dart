@@ -10,6 +10,7 @@ import 'package:bshare/Screens/ProfileScreen/Settings.dart';
 import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart';
 import 'package:bshare/routes/router.dart';
 import 'package:bshare/routes/router.gr.dart';
+import 'package:bshare/Screens/ProfileScreen/BookListings.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -105,12 +106,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconsButtons('Listings', FontAwesomeIcons.listCheck,
-                  Colors.pink[400]!, 45.0),
-              IconsButtons('Purchases', FontAwesomeIcons.bagShopping,
-                  Colors.pink[400]!, 45.0),
-              IconsButtons(
-                  'Favorites', FontAwesomeIcons.heart, Colors.pink[400]!, 45.0),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UserList()),
+                  );
+                },
+                child: IconsButtons('Listings', FontAwesomeIcons.listCheck,
+                    Colors.pink[400]!, 45.0),
+              ),
+              InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => UserList()),
+                  // );
+                },
+                child: IconsButtons('Purchases', FontAwesomeIcons.bagShopping,
+                    Colors.pink[400]!, 45.0),
+              ),
+              InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => UserList()),
+                  // );
+                },
+                child: IconsButtons('Favorites', FontAwesomeIcons.heart,
+                    Colors.pink[400]!, 45.0),
+              ),
             ],
           ),
           SizedBox(
@@ -178,26 +203,23 @@ class IconsButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Expanded(
-        child: Column(
-          children: [
-            FaIcon(
-              icon,
-              size: height,
-              color: color,
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              //'Listings',
-              title,
-              style: TextStyle(fontSize: 20.0),
-            ),
-          ],
-        ),
+    return Expanded(
+      child: Column(
+        children: [
+          FaIcon(
+            icon,
+            size: height,
+            color: color,
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            //'Listings',
+            title,
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ],
       ),
     );
   }
