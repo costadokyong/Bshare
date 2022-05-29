@@ -2,6 +2,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
+import 'package:bshare/Screens/ProfileScreen/Favorites.dart';
 import 'package:bshare/Screens/Settings/ProfileEdit.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -128,10 +129,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => UserList()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Favorites()),
+                  );
                 },
                 child: IconsButtons('Favorites', FontAwesomeIcons.heart,
                     Colors.pink[400]!, 45.0),
