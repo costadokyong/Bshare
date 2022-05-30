@@ -85,8 +85,9 @@ class _UserListState extends State<UserList> {
                         mybookData.bookDescription,
                         mybookData.bookMajor,
                         mybookData.bookOwnerId,
+                        mybookData.bookId,
                         context);
-                  }),
+                  }).toList(),
                 );
               } else {
                 Center(
@@ -131,6 +132,7 @@ class _UserListState extends State<UserList> {
       String bookDescription,
       String bookMajor,
       String bookOwnerId,
+      String bookId,
       BuildContext context) {
     return InkWell(
       onTap: () async {
@@ -147,7 +149,7 @@ class _UserListState extends State<UserList> {
           bookMajor,
           bookOwnerMajor,
           bookOwnerUserName,
-          context
+          bookId
         ]);
         Navigator.push(
             context,
@@ -162,15 +164,14 @@ class _UserListState extends State<UserList> {
             Expanded(
               flex: 4,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // ignore: avoid_unnecessary_containers
                   Container(
-                    padding: const EdgeInsets.all(8.0),
-                    // ignore: prefer_const_constructors
+                    padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       color: Colors.white10,
-                      borderRadius: const BorderRadius.all(
+                      borderRadius: BorderRadius.all(
                         Radius.circular(3.0),
                       ),
                     ),
@@ -183,29 +184,29 @@ class _UserListState extends State<UserList> {
                   ),
                   Expanded(
                     child: Container(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       padding: EdgeInsets.all(5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text(
                             bookTitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10.0,
                           ),
                           Text(
                             bookMajor,
-                            style: const TextStyle(fontSize: 14.0),
+                            style: TextStyle(fontSize: 14.0),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10.0,
                           ),
                           Text(
                             "Price: " + bookPrice.toString() + '₩',
-                            style: const TextStyle(fontSize: 14.0),
+                            style: TextStyle(fontSize: 14.0),
                           ),
                         ],
                       ),
