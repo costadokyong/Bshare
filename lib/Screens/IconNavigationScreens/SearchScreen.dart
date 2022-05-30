@@ -129,8 +129,11 @@ class _SearchPageState extends State<SearchPage> {
                     //CircularProgressIndicator();
                     myBooks = Map<String, dynamic>.from(
                         (snapshot.data as dynamic).snapshot.value);
-
+                    int index = 0;
                     theBooks = myBooks.values.map<BookData>((value) {
+                      print(index);
+                      index + 1;
+                      print(index);
                       bookData =
                           BookData.fromRTDB(Map<String, dynamic>.from(value));
                       theBooks.add(bookData);
@@ -153,6 +156,7 @@ class _SearchPageState extends State<SearchPage> {
                     //         context);
                     //   }).toList();
                     // });
+
                   } else {
                     Center(
                       child: Text(

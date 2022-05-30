@@ -236,6 +236,11 @@ class MySingUpState extends State<SingUp> {
 
                           switch (loginFlag) {
                             case 1:
+                              addUserinFireStore(
+                                  nameController.text,
+                                  emailController.text,
+                                  passwordController.text,
+                                  majorController.text);
                               showDialog(
                                 context: context,
                                 builder: (context) => CustomDialogAuth(

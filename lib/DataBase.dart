@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,6 +17,23 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 final userTable = database.child('UsersInfo/');
 final bookTable = database.child('Books/');
+
+CollectionReference usersForFireStore =
+    FirebaseFirestore.instance.collection('users');
+
+Future<void> addUserinFireStore(
+    String username, String email, String password, String major) {
+  return usersForFireStore
+      .doc(_auth.currentUser!.uid)
+      .set({
+        'username': username,
+        'email': email,
+        'password': password,
+        'major': major
+      })
+      .then((value) => print("User Added"))
+      .catchError((error) => print("Failed to add user: $error"));
+}
 
 Future<int> register(
     String username, String email, String password, String major) async {
