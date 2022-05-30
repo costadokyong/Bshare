@@ -242,6 +242,7 @@ class MySingUpState extends State<SingUp> {
                                   title: 'Signed Up Successfully',
                                   isSignIn: false,
                                   isUpload: false,
+                                  isRetrieve: false,
                                 ),
                               );
                               break;

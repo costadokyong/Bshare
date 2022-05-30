@@ -7,6 +7,7 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
 import 'package:bshare/Screens/Home.dart';
+import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
 import 'package:bshare/routes/router.gr.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +108,7 @@ class _MyStatefulWidgetState extends State<SignIn> {
                                       title: "Successfully Login",
                                       isSignIn: true,
                                       isUpload: false,
+                                      isRetrieve: false,
                                     ));
                             emailController.clear();
                             passwordController.clear();
@@ -232,8 +234,12 @@ class CustomDialogAuth extends StatelessWidget {
   final String title;
   final bool isSignIn;
   final bool isUpload;
+  final isRetrieve;
   const CustomDialogAuth(
-      {required this.title, required this.isSignIn, required this.isUpload});
+      {required this.title,
+      required this.isSignIn,
+      required this.isUpload,
+      required this.isRetrieve});
 
   @override
   Widget build(BuildContext context) {
@@ -283,6 +289,9 @@ class CustomDialogAuth extends StatelessWidget {
                       context.router.push(HomeRoute());
                     } else if (isUpload) {
                       Navigator.pop(context);
+                    } else if (isRetrieve) {
+                      Navigator.pop(context);
+                      context.router.push(HomeRoute());
                     } else {
                       Navigator.of(context).pop();
                       context.router.push(SignInRoute());

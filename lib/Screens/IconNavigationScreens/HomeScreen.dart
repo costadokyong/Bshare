@@ -99,6 +99,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
               //CircularProgressIndicator();
               final myBooks = Map<String, dynamic>.from(
                   (snapshot.data as dynamic).snapshot.value);
+
               allBooks = myBooks.values.map<BookData>((value) {
                 bookData = BookData.fromRTDB(Map<String, dynamic>.from(value));
                 allBooks.add(bookData);

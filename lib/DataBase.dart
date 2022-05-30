@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, body_might_complete_normally_nullable, avoid_print, prefer_const_constructors, avoid_return_types_on_setters
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +13,15 @@ final database = FirebaseDatabase(
             "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
     .ref();
 final storage = FirebaseStorage.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseAuth _auth = FirebaseAuth.instance;
+
+class GetAuth {
+  FirebaseAuth get authVal => _auth;
+  //set _auth(FirebaseAuth getAuth) {}
+  set authVal(FirebaseAuth authVal) {
+    _auth = authVal;
+  }
+}
 
 final userTable = database.child('UsersInfo/');
 final bookTable = database.child('Books/');
@@ -180,83 +190,3 @@ Future logOut() async {
     print(e);
   }
 }
-
-
-
-
-
-
-
-
-// class Database {
-//   // ignore: body_might_complete_normally_nullable
-//   Future<List?> getBookData() async {
-//     List dataList = [];
-//     // DatabaseReference referenceData =
-//     //     // ignore: deprecated_member_use
-//     //     FirebaseDatabase().instance.ref().child("Books");
-
-//     // ignore: deprecated_member_use
-
-//     // ignore: avoid_single_cascade_in_expression_statements
-//     try {
-//       await database.once().then(
-//         (event) {
-//           Map<dynamic, dynamic> map =
-//               event.snapshot.value as Map<dynamic, dynamic>;
-//           dataList.clear();
-
-//           map.forEach(
-//             (key, value) {
-//               var values = Map<dynamic, dynamic>.from(map);
-//               BookData data = BookData(
-//                 values['bookImageUrl'],
-//                 values['bookTitle'],
-//                 values['bookPrice'],
-//                 values['bookDescription'],
-//               );
-//               dataList.add(data);
-//             },
-//           );
-//           // setState(() {
-//           //   print(dataList.length);
-//           // });
-//         },
-//       );
-
-//       return dataList;
-//     } catch (e) {
-//       // ignore: avoid_print
-//       print(e.toString());
-//     }
-
-//     // referenceData.once().then((event) {
-//     //   final dataSnapshot = event.snapshot;
-//     //   // dataList.clear();
-//     //   var keys = dataSnapshot.value!.getKey();
-//     //   var values = dataSnapshot.value;
-//     //   for (var key in keys) {
-//     //     BookData data = BookData(
-//     //       values[key]["imageUrl"],
-//     //       values[key]["bookTitle"],
-//     //       values[key]["price"],
-//     //       values[key]["description"],
-//     //     );
-//     //     dataList.add(data);
-//     //   }
-//     //   setState(() {
-//     //     //
-//     //   });
-
-//     //   (dataSnapshot as Map<dynamic, dynamic>).forEach((key, value) {
-//     //     BookData data = BookData(
-//     //       values![key]["bookImageUrl"],
-//     //       values[key]["bookTitle"],
-//     //       values[key]["bookPrice"],
-//     //       values[key]["bookDescription"],
-//     //     );
-//     //     dataList.add(data);
-//     //   });
-//     // });
-//   }
-// }
