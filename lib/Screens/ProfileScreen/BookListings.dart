@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_field, non_constant_identifier_names, unused_element
+// ignore_for_file: prefer_const_constructors, unused_field, non_constant_identifier_names, unused_element, void_checks
 // import 'dart:html';
 // import 'dart:ui';
 
@@ -22,23 +22,40 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
+  List<bool> flag = [];
+  int index = -1;
+
   GetAuth authentif = GetAuth();
   // ignore: deprecated_member_use
   final _database = FirebaseDatabase(
           databaseURL:
               "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
       .ref();
+
+  BookData bookData = BookData(
+      bookImageUrl: '',
+      bookTitle: '',
+      bookPrice: 0,
+      bookDescription: '',
+      bookMajor: '',
+      bookOwnerId: '',
+      bookId: '');
+
+  //List<BookData> favoriteBooks = <BookData>[];
+  List<BookData> allBooks = <BookData>[];
+
   //final FirebaseAuth _auth = FirebaseAuth.instance;
   // final userID = FirebaseAuth.instance.currentUser!.uid;
   // String username = '';
 
   //final myName = _database.child('UsersInfo').child(userID).
 
-  @override
-  void initState() {
-    super.initState();
-    //getBookList();
-  }
+  // @override
+  // void initState(void initState) {
+  //   super.initState();
+  //   //book_sold = !book_sold;
+  //   //getBookList();
+  // }
 
   //String title = 'This is where the user list goes.';
   @override
@@ -67,30 +84,57 @@ class _UserListState extends State<UserList> {
               .child('userBooks')
               .onValue,
           builder: (context, snapshot) {
-            final bookList = <Widget>[];
+            List<Widget> bookList = <Widget>[];
+            List<BookData> listingBooks = <BookData>[];
             try {
               if (snapshot.hasData) {
                 //CircularProgressIndicator();
                 final myBooks = Map<String, dynamic>.from(
                     (snapshot.data as dynamic).snapshot.value);
-                bookList.addAll(
-                  myBooks.values.map((value) {
-                    final mybookData =
-                        BookData.fromRTDB(Map<String, dynamic>.from(value));
 
-                    return userListUI(
-                        mybookData.bookImageUrl,
-                        mybookData.bookTitle,
-                        mybookData.bookPrice,
-                        mybookData.bookDescription,
-                        mybookData.bookMajor,
-                        mybookData.bookOwnerId,
-                        mybookData.bookId,
-                        context);
-                  }).toList(),
-                );
+                allBooks = myBooks.values.map<BookData>((value) {
+                  bookData =
+                      BookData.fromRTDB(Map<String, dynamic>.from(value));
+                  allBooks.add(bookData);
+
+                  return bookData;
+                }).toList();
+
+                listingBooks = allBooks;
+
+                bookList = listingBooks.map<Widget>((book) {
+                  index++;
+                  print(index);
+                  //flag[index] = false;
+                  return userListUI(
+                      book.bookImageUrl,
+                      book.bookTitle,
+                      book.bookPrice,
+                      book.bookDescription,
+                      book.bookMajor,
+                      book.bookOwnerId,
+                      book.bookId,
+                      index,
+                      context);
+                }).toList();
+                // bookList.addAll(
+                //   myBooks.values.map((value) {
+                //     final mybookData =
+                //         BookData.fromRTDB(Map<String, dynamic>.from(value));
+
+                //     return userListUI(
+                //         mybookData.bookImageUrl,
+                //         mybookData.bookTitle,
+                //         mybookData.bookPrice,
+                //         mybookData.bookDescription,
+                //         mybookData.bookMajor,
+                //         mybookData.bookOwnerId,
+                //         mybookData.bookId,
+                //         context);
+                //   }).toList(),
+                // );
               } else {
-                Center(
+                const Center(
                   child: Text(
                     'No data available',
                     style:
@@ -99,7 +143,42 @@ class _UserListState extends State<UserList> {
                 );
               }
               // ignore: avoid_print
-            } catch (e) {
+            }
+            // final bookList = <Widget>[];
+            // try {
+            //   if (snapshot.hasData) {
+            //     //CircularProgressIndicator();
+            //     final myBooks = Map<String, dynamic>.from(
+            //         (snapshot.data as dynamic).snapshot.value);
+
+            //     bookList.addAll(
+            //       myBooks.values.map((value) {
+            //         final mybookData =
+            //             BookData.fromRTDB(Map<String, dynamic>.from(value));
+
+            //         return userListUI(
+            //             mybookData.bookImageUrl,
+            //             mybookData.bookTitle,
+            //             mybookData.bookPrice,
+            //             mybookData.bookDescription,
+            //             mybookData.bookMajor,
+            //             mybookData.bookOwnerId,
+            //             mybookData.bookId,
+            //             context);
+            //       }).toList(),
+            //     );
+            //   } else {
+            //     Center(
+            //       child: Text(
+            //         'No data available',
+            //         style:
+            //             TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
+            //       ),
+            //     );
+            //   }
+            //   // ignore: avoid_print
+            // }
+            catch (e) {
               print(e.toString());
             }
 
@@ -133,7 +212,10 @@ class _UserListState extends State<UserList> {
       String bookMajor,
       String bookOwnerId,
       String bookId,
+      int index,
       BuildContext context) {
+    bool book_sold = false;
+
     return InkWell(
       onTap: () async {
         var booksInfo = [];
@@ -151,12 +233,12 @@ class _UserListState extends State<UserList> {
           bookOwnerUserName,
           bookId
         ]);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BookDetails(
-                      booksInfo: booksInfo,
-                    )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => BookDetails(
+        //               booksInfo: booksInfo,
+        //             )));
       },
       child: Card(
         child: Row(
@@ -219,10 +301,18 @@ class _UserListState extends State<UserList> {
               flex: 1,
               child: ElevatedButton(
                 onPressed: () {
-                  setState(() {});
+                  database.child('Books').child(bookId).remove();
+                  setState(
+                    () {
+                      // flag[index] = true;
+                      // print(flag);
+                      book_sold = !book_sold;
+                      print(book_sold);
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.teal[100],
+                  primary: book_sold ? Colors.green : Colors.teal[100],
                 ),
                 child: Text(
                   'Sold',
@@ -236,13 +326,6 @@ class _UserListState extends State<UserList> {
     );
   }
 }
-
-
-
-
-
-
-
 
 // SafeArea(
 //       child: Scaffold(
@@ -282,8 +365,6 @@ class _UserListState extends State<UserList> {
 //         ),
 //       ),
 //     );
-
-
 
 // FirebaseAnimatedList(
 //             query:

@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, avoid_types_as_parameter_names
+// ignore_for_file: non_constant_identifier_names, avoid_types_as_parameter_names, unused_local_variable
 
 import 'package:bshare/Screens/ProfileScreen/MyProfileSettings.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
 import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
 
 import '../IconNavigationScreens/BookDetails.dart';
+import '../SignIn.dart';
 import 'BookListings.dart';
 
 class Favorites extends StatefulWidget {
@@ -28,6 +29,24 @@ class _FavoritesState extends State<Favorites> {
   Icon favoriteIcon = const Icon(Icons.favorite, color: Colors.red);
 
   Icon plainFavoriteIcon = const Icon(Icons.favorite_border);
+
+  @override
+  void initState() {
+    super.initState();
+    //getBookList();
+  }
+
+  BookData bookData = BookData(
+      bookImageUrl: '',
+      bookTitle: '',
+      bookPrice: 0,
+      bookDescription: '',
+      bookMajor: '',
+      bookOwnerId: '',
+      bookId: '');
+
+  //List<BookData> favoriteBooks = <BookData>[];
+  List<BookData> allBooks = <BookData>[];
 
   @override
   Widget build(BuildContext context) {
@@ -58,32 +77,53 @@ class _FavoritesState extends State<Favorites> {
             stream: database
                 .child('favorites')
                 .child(auth.authVal.currentUser!.uid)
-                .child('bookID')
                 .onValue,
             builder: (context, snapshot) {
-              final bookList = <Widget>[];
-              final favoriteBooks = <Widget>[];
+              List<Widget> bookList = <Widget>[];
+              List<BookData> favoriteBooks = <BookData>[];
               try {
                 if (snapshot.hasData) {
                   //CircularProgressIndicator();
                   final myBooks = Map<String, dynamic>.from(
                       (snapshot.data as dynamic).snapshot.value);
-                  bookList.addAll(
-                    myBooks.values.map((value) {
-                      final mybookData =
-                          BookData.fromRTDB(Map<String, dynamic>.from(value));
 
-                      return userListUI(
-                          mybookData.bookImageUrl,
-                          mybookData.bookTitle,
-                          mybookData.bookPrice,
-                          mybookData.bookDescription,
-                          mybookData.bookMajor,
-                          mybookData.bookOwnerId,
-                          mybookData.bookId,
-                          context);
-                    }).toList(),
-                  );
+                  allBooks = myBooks.values.map<BookData>((value) {
+                    bookData =
+                        BookData.fromRTDB(Map<String, dynamic>.from(value));
+                    allBooks.add(bookData);
+
+                    return bookData;
+                  }).toList();
+
+                  favoriteBooks = allBooks;
+
+                  bookList = favoriteBooks.map<Widget>((book) {
+                    return userListUI(
+                        book.bookImageUrl,
+                        book.bookTitle,
+                        book.bookPrice,
+                        book.bookDescription,
+                        book.bookMajor,
+                        book.bookOwnerId,
+                        book.bookId,
+                        context);
+                  }).toList();
+                  // bookList.addAll(
+                  //   myBooks.values.map((value) {
+                  //     final mybookData =
+                  //         BookData.fromRTDB(Map<String, dynamic>.from(value));
+
+                  //     return userListUI(
+                  //         mybookData.bookImageUrl,
+                  //         mybookData.bookTitle,
+                  //         mybookData.bookPrice,
+                  //         mybookData.bookDescription,
+                  //         mybookData.bookMajor,
+                  //         mybookData.bookOwnerId,
+                  //         mybookData.bookId,
+                  //         context);
+                  //   }).toList(),
+                  // );
                 } else {
                   const Center(
                     child: Text(
@@ -213,6 +253,14 @@ class _FavoritesState extends State<Favorites> {
               child: IconButton(
                 iconSize: 50.0,
                 onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => const CustomDialogAuth(
+                            title: 'Book Removed',
+                            isSignIn: false,
+                            isRetrieve: true,
+                            isUpload: false,
+                          ));
                   database
                       .child('favorites')
                       .child(auth.authVal.currentUser!.uid)

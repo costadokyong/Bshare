@@ -323,6 +323,7 @@ class _UploadFileState extends State<UploadFile> {
                       builder: (context) => CustomDialogAuth(
                             title: 'Book uploaded',
                             isSignIn: false,
+                            isRetrieve: false,
                             isUpload: true,
                           ));
                   titleController.clear();

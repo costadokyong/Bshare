@@ -6,9 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
-import 'package:flutter/material.dart';
-import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
-import 'package:bshare/Screens/IconNavigationScreens/BookDetails.dart';
 
 // ignore: deprecated_member_use
 final database = FirebaseDatabase(
@@ -82,49 +79,6 @@ Future<void> uploadBook(
       'bookImageUrl': bookImageUrl,
       'bookOwnerId': _auth.currentUser!.uid,
       'bookId': bookId,
-    });
-
-    await bookTable.child(bookId).set({
-      'bookTitle': bookTitle,
-      'bookMajor': bookMajor,
-      'bookDescription': bookDesc,
-      'bookPrice': price,
-      'bookImageUrl': bookImageUrl,
-      'bookOwnerId': _auth.currentUser!.uid,
-    });
-  } catch (e) {
-    print('you got an error $e');
-  }
-
-  try {
-    await userTable
-        .child(_auth.currentUser!.uid)
-        .child('userBooks')
-        .child(bookId)
-        .set({
-      'bookTitle': bookTitle,
-      'bookMajor': bookMajor,
-      'bookDescription': bookDesc,
-      'bookPrice': price,
-      'bookImageUrl': bookImageUrl,
-      'bookOwnerId': _auth.currentUser!.uid,
-    });
-  } catch (e) {
-    print('you got an error $e');
-  }
-
-  try {
-    await userTable
-        .child(_auth.currentUser!.uid)
-        .child('favoritesBooks')
-        .child(bookId)
-        .set({
-      'bookTitle': bookTitle,
-      'bookMajor': bookMajor,
-      'bookDescription': bookDesc,
-      'bookPrice': price,
-      'bookImageUrl': bookImageUrl,
-      'bookOwnerId': _auth.currentUser!.uid,
     });
   } catch (e) {
     print('you got an error $e');

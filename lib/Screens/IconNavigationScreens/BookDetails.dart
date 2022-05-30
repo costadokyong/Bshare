@@ -1,4 +1,5 @@
 import 'package:bshare/DataBase.dart';
+import 'package:bshare/Screens/ChatScreens/ChatDetailScreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -178,7 +179,14 @@ class BookDetailsState extends State<BookDetails> {
                       padding: const EdgeInsets.symmetric(horizontal: 56),
                       minimumSize: const Size(100, 50),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatDetailScreen(
+                                    booksInfo: booksInfo,
+                                  )));
+                    },
                     child: const Text(
                       'Chat',
                       style: TextStyle(
