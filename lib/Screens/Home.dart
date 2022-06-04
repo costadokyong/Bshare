@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:bshare/DataBase.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
@@ -13,7 +15,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //BtmBar btmBar = BtmBar();
+  //BtmBar btmBar = BtmBar()
+  final _referenceData = FirebaseDatabase(
+          databaseURL:
+              "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
+      .ref();
+
+  bool hasNotifications = false;
 
   int selectedIndex = 0;
 
@@ -39,6 +47,30 @@ class _HomeState extends State<Home> {
     });
   }
 
+  int count = 1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _notifyListener();
+  }
+
+  void _notifyListener() {
+    print('codigo sendo executado');
+    notifications
+        .child('${getUserId()}/hasNotifications')
+        .onValue
+        .listen((event) {
+      final notification = event.snapshot.value;
+      notification.toString;
+      print(notification);
+      setState(() {
+        hasNotifications = notification as bool;
+        print('notificando $notification');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,14 +81,35 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blue,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.house),
             label: 'Home',
             backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.comments),
+            icon: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Icon(FontAwesomeIcons.message),
+                  if (hasNotifications)
+                    Positioned(
+                      right: -0.5,
+                      top: 0.0,
+                      child: Container(
+                        padding: EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 15,
+                          minHeight: 12,
+                        ),
+                      ),
+                    )
+                ]),
             label: 'Chats',
             backgroundColor: Colors.blue,
           ),
@@ -73,7 +126,13 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Colors.white,
-        onTap: onItemTapped,
+        onTap: (value) {
+          onItemTapped(value);
+          if (value == 1) {
+            notified();
+            print(hasNotifications);
+          }
+        },
       ),
     );
   }

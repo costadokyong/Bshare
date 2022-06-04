@@ -81,7 +81,8 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
       bookDescription: '',
       bookMajor: '',
       bookOwnerId: '',
-      bookId: '');
+      bookId: '',
+      isBookSold: false);
 
   List<BookData> booksToBeShowed = <BookData>[];
   List<BookData> allBooks = <BookData>[];
@@ -99,6 +100,7 @@ class _HomeScreenPageState extends State<HomeScreenPage> {
               //CircularProgressIndicator();
               final myBooks = Map<String, dynamic>.from(
                   (snapshot.data as dynamic).snapshot.value);
+
               allBooks = myBooks.values.map<BookData>((value) {
                 bookData = BookData.fromRTDB(Map<String, dynamic>.from(value));
                 allBooks.add(bookData);
@@ -192,7 +194,8 @@ CardUI(
               bookMajor,
               bookOwnerMajor,
               bookOwnerUserName,
-              bookId
+              bookId,
+              bookOwnerId
             ]);
             Navigator.push(
                 context,
