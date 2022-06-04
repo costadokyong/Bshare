@@ -98,6 +98,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               stream: _referenceData
                   .child('chatMessages')
                   .child('${getUserId()}and$bookOwnerId')
+                  .orderByKey()
                   .onValue,
               builder: (context, snapshot) {
                 try {
