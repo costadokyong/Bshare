@@ -7,6 +7,7 @@ class BookData {
   String bookMajor;
   String bookOwnerId;
   String bookId;
+  bool isBookSold = false;
 
   BookData(
       {required this.bookImageUrl,
@@ -15,17 +16,20 @@ class BookData {
       required this.bookDescription,
       required this.bookMajor,
       required this.bookOwnerId,
-      required this.bookId});
+      required this.bookId,
+      required this.isBookSold});
 
   factory BookData.fromRTDB(Map<String, dynamic> data) {
     return BookData(
-        bookImageUrl: data['bookImageUrl'] ??
-            'https://p.kindpng.com/picc/s/164-1646889_error-png-page-something-went-wrong-png-transparent.png',
-        bookTitle: data['bookTitle'] ?? 'Unknown',
-        bookPrice: data['bookPrice'] ?? 0,
-        bookDescription: data['bookDescription'] ?? 'No description',
-        bookMajor: data['bookMajor'] ?? 'Unknow',
-        bookOwnerId: data['bookOwnerId'] ?? 'Unknow',
-        bookId: data['bookId'] ?? 'Unknow');
+      bookImageUrl: data['bookImageUrl'] ??
+          'https://p.kindpng.com/picc/s/164-1646889_error-png-page-something-went-wrong-png-transparent.png',
+      bookTitle: data['bookTitle'] ?? 'Unknown',
+      bookPrice: data['bookPrice'] ?? 0,
+      bookDescription: data['bookDescription'] ?? 'No description',
+      bookMajor: data['bookMajor'] ?? 'Unknow',
+      bookOwnerId: data['bookOwnerId'] ?? 'Unknow',
+      bookId: data['bookId'] ?? 'Unknow',
+      isBookSold: data['isbookSold'] ?? false,
+    );
   }
 }

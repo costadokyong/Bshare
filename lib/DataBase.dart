@@ -1,11 +1,11 @@
-import 'dart:developer';
+// ignore_for_file: non_constant_identifier_names, body_might_complete_normally_nullable, avoid_print, prefer_const_constructors, avoid_return_types_on_setters
+
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bshare/Screens/ChatScreens/MessageModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:bshare/Screens/IconNavigationScreens/BookData.dart';
 
 // ignore: deprecated_member_use
 final database = FirebaseDatabase(
@@ -13,27 +13,21 @@ final database = FirebaseDatabase(
             "https://bshare-a25c4-default-rtdb.asia-southeast1.firebasedatabase.app/")
     .ref();
 final storage = FirebaseStorage.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
+FirebaseAuth _auth = FirebaseAuth.instance;
+
+class GetAuth {
+  FirebaseAuth get authVal => _auth;
+  //set _auth(FirebaseAuth getAuth) {}
+  set authVal(FirebaseAuth authVal) {
+    _auth = authVal;
+  }
+}
 
 final userTable = database.child('UsersInfo/');
 final bookTable = database.child('Books/');
-
-CollectionReference usersForFireStore =
-    FirebaseFirestore.instance.collection('users');
-
-Future<void> addUserinFireStore(
-    String username, String email, String password, String major) {
-  return usersForFireStore
-      .doc(_auth.currentUser!.uid)
-      .set({
-        'username': username,
-        'email': email,
-        'password': password,
-        'major': major
-      })
-      .then((value) => print("User Added"))
-      .catchError((error) => print("Failed to add user: $error"));
-}
+final chatMessages = database.child('chatMessages/');
+final contactList = database.child('contactList');
+final notifications = database.child('notifications');
 
 Future<int> register(
     String username, String email, String password, String major) async {
@@ -105,10 +99,25 @@ Future<void> uploadBook(
       'bookPrice': price,
       'bookImageUrl': bookImageUrl,
       'bookOwnerId': _auth.currentUser!.uid,
+      'isbookSold': false,
       'bookId': bookId,
     });
   } catch (e) {
     print('you got an error $e');
+  }
+}
+
+Future<void> sellBook(String bookId) async {
+  try {
+    await userTable
+        .child(_auth.currentUser!.uid)
+        .child('userBooks')
+        .child(bookId)
+        .update({
+      'isbookSold': true,
+    });
+  } catch (e) {
+    print('error in update book status $e');
   }
 }
 
@@ -200,82 +209,78 @@ Future logOut() async {
   }
 }
 
+Future<void> sendMessage(String bookOwnerID, String msgText) async {
+  DateTime now = DateTime.now();
 
+  try {
+    await chatMessages
+        .child('${_auth.currentUser!.uid}and$bookOwnerID')
+        .push()
+        .set({
+      'messageText': msgText,
+      'messageType': 'sender',
+      'time': now.microsecondsSinceEpoch
+    });
 
+    await chatMessages
+        .child('${bookOwnerID}and${_auth.currentUser!.uid}')
+        .push()
+        .set({
+      'messageText': msgText,
+      'messageType': 'reciever',
+      'time': now.microsecondsSinceEpoch
+    });
+  } catch (e) {
+    print('error sending the message $e');
+  }
+}
 
+Future<void> addContact(String bookOWnerID, String bookOwnerUserName) async {
+  String currentUserName = await getUserData('username');
+  try {
+    await contactList.child(_auth.currentUser!.uid).child(bookOWnerID).set({
+      'contactID': bookOWnerID,
+      'contactUsername': bookOwnerUserName,
+    });
 
+    await contactList.child(bookOWnerID).child(_auth.currentUser!.uid).set({
+      'contactID': _auth.currentUser!.uid,
+      'contactUsername': currentUserName,
+    });
 
+    print('contact added sucsessfull');
+  } catch (e) {
+    print('error in adding contact $e');
+  }
+}
 
+Future<void> updateLastMessage(ChatMessage message, String contactId) async {
+  try {
+    await contactList.child(getUserId()).child(contactId).update({
+      'lastMessage': message.messageContent,
+    });
 
-// class Database {
-//   // ignore: body_might_complete_normally_nullable
-//   Future<List?> getBookData() async {
-//     List dataList = [];
-//     // DatabaseReference referenceData =
-//     //     // ignore: deprecated_member_use
-//     //     FirebaseDatabase().instance.ref().child("Books");
+    await contactList.child(contactId).child(getUserId()).update({
+      'lastMessage': message.messageContent,
+    });
+    print('last message to be update: ${message.messageContent}');
+  } catch (e) {
+    print('failed to udtade las messsage $e');
+  }
+}
 
-//     // ignore: deprecated_member_use
+Future<void> notify(String userID) async {
+  try {
+    await notifications.child(userID).update({'hasNotifications': true});
+  } catch (e) {
+    print('error to notify $e');
+  }
+}
 
-//     // ignore: avoid_single_cascade_in_expression_statements
-//     try {
-//       await database.once().then(
-//         (event) {
-//           Map<dynamic, dynamic> map =
-//               event.snapshot.value as Map<dynamic, dynamic>;
-//           dataList.clear();
-
-//           map.forEach(
-//             (key, value) {
-//               var values = Map<dynamic, dynamic>.from(map);
-//               BookData data = BookData(
-//                 values['bookImageUrl'],
-//                 values['bookTitle'],
-//                 values['bookPrice'],
-//                 values['bookDescription'],
-//               );
-//               dataList.add(data);
-//             },
-//           );
-//           // setState(() {
-//           //   print(dataList.length);
-//           // });
-//         },
-//       );
-
-//       return dataList;
-//     } catch (e) {
-//       // ignore: avoid_print
-//       print(e.toString());
-//     }
-
-//     // referenceData.once().then((event) {
-//     //   final dataSnapshot = event.snapshot;
-//     //   // dataList.clear();
-//     //   var keys = dataSnapshot.value!.getKey();
-//     //   var values = dataSnapshot.value;
-//     //   for (var key in keys) {
-//     //     BookData data = BookData(
-//     //       values[key]["imageUrl"],
-//     //       values[key]["bookTitle"],
-//     //       values[key]["price"],
-//     //       values[key]["description"],
-//     //     );
-//     //     dataList.add(data);
-//     //   }
-//     //   setState(() {
-//     //     //
-//     //   });
-
-//     //   (dataSnapshot as Map<dynamic, dynamic>).forEach((key, value) {
-//     //     BookData data = BookData(
-//     //       values![key]["bookImageUrl"],
-//     //       values[key]["bookTitle"],
-//     //       values[key]["bookPrice"],
-//     //       values[key]["bookDescription"],
-//     //     );
-//     //     dataList.add(data);
-//     //   });
-//     // });
-//   }
-// }
+Future<void> notified() async {
+  try {
+    await notifications.child(getUserId()).update({'hasNotifications': false});
+  } catch (e) {
+    print('error to notify $e');
+  }
+}

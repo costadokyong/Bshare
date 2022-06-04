@@ -43,7 +43,8 @@ class _SearchPageState extends State<SearchPage> {
       bookDescription: '',
       bookMajor: '',
       bookOwnerId: '',
-      bookId: '');
+      bookId: '',
+      isBookSold: false);
 
   List<BookData> theBooks = <BookData>[];
   List<BookData> theBookstoBeSearched = <BookData>[];

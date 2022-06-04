@@ -1,6 +1,5 @@
 import 'package:bshare/DataBase.dart';
-import 'package:bshare/Screens/IconNavigationScreens/ChatScreen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bshare/Screens/ChatScreens/ChatDetailScreen.dart';
 import 'package:flutter/material.dart';
 
 class BookDetails extends StatefulWidget {
@@ -180,8 +179,17 @@ class BookDetailsState extends State<BookDetails> {
                       minimumSize: const Size(100, 50),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MsgScreen()));
+                      addContact(booksInfo[8], booksInfo[6]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatDetailScreen(
+                            bookOwnerUserName: booksInfo[6],
+                            bookOwnerId: booksInfo[8],
+                          ),
+                        ),
+                      );
+                      notify(booksInfo[8]);
                     },
                     child: const Text(
                       'Chat',
@@ -202,6 +210,7 @@ class BookDetailsState extends State<BookDetails> {
                           booksInfo[2],
                           booksInfo[0],
                           booksInfo[5]);
+                      _showToast();
                     },
                   ),
                 ],
@@ -209,6 +218,19 @@ class BookDetailsState extends State<BookDetails> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showToast() {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      const SnackBar(
+        duration: Duration(milliseconds: 500),
+        content: Text(
+          'Book Added to Favorites',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
