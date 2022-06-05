@@ -6,6 +6,7 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:bshare/DataBase.dart';
+import 'package:bshare/Screens/ForgetPassword.dart';
 import 'package:bshare/Screens/Home.dart';
 import 'package:bshare/Screens/IconNavigationScreens/HomeScreen.dart';
 import 'package:bshare/routes/router.gr.dart';
@@ -86,7 +87,12 @@ class _MyStatefulWidgetState extends State<SignIn> {
               ),
               TextButton(
                 onPressed: () {
-                  //forgot password screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgetPassword(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Forgot Password',
