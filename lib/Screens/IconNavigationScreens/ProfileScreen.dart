@@ -119,16 +119,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => UserList()),
-                  // );
-                },
-                child: IconsButtons('Purchases', FontAwesomeIcons.bagShopping,
-                    Colors.pink[400]!, 45.0),
-              ),
-              InkWell(
-                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Favorites()),

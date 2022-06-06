@@ -100,33 +100,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         SizedBox(
           height: 60.0,
         ),
-        TextButton(
-          onPressed: () {
-            //Navigates to the Profile edit Screen
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfileEdit(),
-              ),
-            );
-          },
-          child: Container(
-            height: 45.0,
-            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
-            decoration: BoxDecoration(
-                //color: Colors.green,
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.all(Radius.circular(4.0))),
-            child: Center(
-              child: Text("Profile Settings",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w400),
-                  textAlign: TextAlign.center),
-            ),
-          ),
-        ),
       ],
     );
   }
