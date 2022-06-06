@@ -24,29 +24,6 @@ class HomeScreen extends StatelessWidget {
             'Bshare',
             style: TextStyle(color: Colors.black),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: Colors.black,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                FontAwesomeIcons.bars,
-                color: Colors.black,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                FontAwesomeIcons.bell,
-                color: Colors.black,
-              ),
-            )
-          ],
         ),
         body: HomeScreenPage(),
       ),
